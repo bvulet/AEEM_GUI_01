@@ -1,0 +1,292 @@
+# file name: developerscreen.kv
+#:import developerscreen developerscreen
+
+
+<User_button_device@Button>:
+
+    size_hint_x:None
+    width:200
+    font_size: 18
+
+<Status_light@Image>:
+
+    size_hint_x: None
+    width:50
+    allow_stretch: False
+    keep_ratio: False
+
+<Price_label@Label>:
+
+    size_hint_x:None
+    size: self.texture_size
+    halign: 'left'
+    valign:'middle'
+
+
+<PriceInput@TextInput>:
+
+    background_color: [0.0,0.0,0.0,0.4]
+    size_hint_x: None
+    width: 150
+    max_lines: 1
+    valign: 'middle'
+    halign: 'center'
+    font_size: 15
+    multiline: False
+    is_focusable: True
+
+<DeveloperScreen>:
+
+    name: 'developerscreen'
+    id : _developerscreen
+    on_pre_enter:
+        _15_min_price.text = ''
+        _30_min_price.text = ''
+        _45_min_price.text = ''
+        _1_h_price.text = ''
+        _2_h_price.text = ''
+        _24_h_price.text = ''
+       # root.request_old_prices()
+
+    FloatLayout:
+        BackgroundScreen:
+            id: _backgroundscreen
+
+        AnchorLayout:
+            anchor_x:"center"
+            anchor_y:"top"
+            padding:[0,0,0,0]
+            Label:
+                id: _screen
+                text: "Postavke uređaja"
+                color: 0,0,0,1
+                size_hint: None, None
+                font_size:'30'
+        AnchorLayout:
+            anchor_x:"left"
+            anchor_y:"bottom"
+            padding:[10,0,0,-10]
+            Button:
+                text: 'Natrag'
+                size_hint: .15,.15
+                background_color: (0,0,0,0)
+                background_normal:''
+                on_press: root.manager.current = 'welcomescreen'
+                Image:
+                    source:"images/back_button.png"
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
+                    size:110,200
+                    allow_stretch: True
+
+
+
+        AnchorLayout:
+            anchor_x:"right"
+            anchor_y:"bottom"
+            padding:[0,0,10,-10]
+            Button:
+                text: 'Naprijed'
+                size_hint: .15,.15
+                background_color: (0,0,0,0)
+                background_normal:''
+                on_press: root.manager.current = 'usercontrolscreen'
+                Image:
+                    source:"images/forward_button.png"
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
+                    size:110,200
+                    allow_stretch: True
+
+        AnchorLayout:
+            anchor_x:"right"
+            anchor_y:"top"
+            padding:[0,100,180,0]
+            GridLayout:
+                rows:6
+                cols:2
+                spacing:20,20
+                row_default_height: 50
+                row_force_default: True
+                size_hint:None,None
+
+                Status_light:
+                    id: _all_device_disabled_light
+                    source: 'images/green_ok.png'
+
+                User_button_device:
+                    id:_all_device_disable_button
+                    text: "Disable All"
+                    on_press:
+                        root.disable_devices("all")
+
+
+                Status_light:
+                    id: _coin_device_disabled_light
+                    source: 'images/green_ok.png'
+
+                User_button_device:
+                    id:_coin_device_disable_button
+                    text: "Disable Coin"
+                    on_press:
+                        root.disable_devices("coin")
+
+                Status_light:
+                    id: _bill_device_disabled_light
+                    source: 'images/green_ok.png'
+
+                User_button_device:
+                    id:_bill_device_disable_button
+                    text: "Disable Bill"
+                    on_press:
+                        root.disable_devices("bill")
+
+
+                Status_light:
+                    id: _hooper_device_disabled_light
+                    source: 'images/green_ok.png'
+
+                User_button_device:
+                    id:_hooper_device_disable_button
+                    text: "Disable Hooper"
+                    on_press:
+                        root.disable_devices("hooper")
+
+
+            AnchorLayout:
+
+                anchor_x:"left"
+                anchor_y: "center"
+                padding:[200,0,0,350]
+                Label:
+                    id: _price_info
+                    text: "Promijenite cijenu"
+                    color: 1,1,1,1
+                    size_hint: None, None
+                    font_size:'20'
+
+            AnchorLayout:
+                anchor_x:"left"
+                anchor_y:"center"
+                padding:[30,0,0,200]
+                GridLayout:
+                    rows:6
+                    cols:3
+                    spacing:10,10
+                    row_default_height: 35
+                    row_force_default: True
+                    size_hint:None,None
+
+
+                    Price_label:
+                        id: _15_min_price_label
+                        text: "15 min old"
+
+
+                    PriceInput:
+                        id: _15_min_price
+                        hint_text: "insert new 15 min price"
+                        input_type: 'number'
+
+
+                    User_button_device:
+                        id:_confirm_15_button
+                        text: "Confirm 15 min"
+                        width: 150
+                        on_release: root.request_new_prices(_15_min_price,_15_min_price.text)
+
+
+
+
+                    Price_label:
+                        id: _30_min_price_label
+                        text: "30 min old"
+
+
+                    PriceInput:
+                        id: _30_min_price
+                        hint_text: "insert new 30 min price"
+
+
+
+                    User_button_device:
+                        id:_confirm_30_button
+                        text: "Confirm 30 min"
+                        width: 150
+                        on_release: root.request_new_prices(_30_min_price,_30_min_price.text)
+
+
+
+                    Price_label:
+                        id: _45_min_price_label
+                        text: "45 min old"
+
+
+                    PriceInput:
+                        id: _45_min_price
+                        hint_text: "insert new 45 min price"
+
+
+
+                    User_button_device:
+                        id:_45_min_confim_button
+                        text: "Confirm 45 min"
+                        width: 150
+                        on_release: root.request_new_prices(_45_min_price,_45_min_price.text)
+
+
+
+
+                    Price_label:
+                        id: _1_h_price_label
+                        text: "1 h old"
+
+
+                    PriceInput:
+                        id: _1_h_price
+                        hint_text: "insert new 1h price"
+
+
+
+                    User_button_device:
+                        id:_1_h_confirm_button
+                        text: "Confirm 1 h"
+                        width: 150
+                        on_release: root.request_new_prices(_1_h_price,_1_h_price.text)
+
+
+
+                    Price_label:
+                        id: _2_h_price_label
+                        text: "2 h old"
+
+
+                    PriceInput:
+                        id: _2_h_price
+                        hint_text: "insert new 2h price"
+
+
+
+                    User_button_device:
+                        id:_2_h_confirm_button
+                        text: "Confirm 2h"
+                        width: 150
+                        on_release: root.request_new_prices(_2_h_price,_2_h_price.text)
+
+
+
+                    Price_label:
+                        id: _24_h_price_label
+                        text: "24h old"
+
+
+                    PriceInput:
+                        id: _24_h_price
+                        hint_text: "insert new 24h price"
+
+
+
+                    User_button_device:
+                        id:_24_h_confirm_button
+                        text: "Confirm 24h"
+                        width: 150

@@ -1,0 +1,104 @@
+# file name loginscreen.kv
+#:import Factory kivy.factory.Factory
+#:import loginscreen loginscreen
+
+<CustomTextInput@TextInput>:
+    size_hint: None,None
+    size: 250, 35
+    max_lines: 1
+    valign: 'middle'
+    halign: 'center'
+    font_size: 15
+    multiline: False
+    background_color: [0.0,0.0,0.0,0.4]
+    is_focusable: True
+
+
+<LoginScreen>:
+    name: 'loginscreen'
+    id : _loginscreen
+    on_pre_enter:
+        _username.text = ''
+        _password.text = ''
+        _error_label.color=0,0,0,0
+
+    on_pre_leave:Factory.CustomTextInput().exit_screen()
+
+
+
+    FloatLayout:
+        BackgroundScreen:
+            id: _backgroundscreen
+        AnchorLayout:
+            anchor_x:"center"
+            anchor_y:"top"
+            padding:[0,0,0,0]
+            Label:
+                id: _screen
+                text: "Login"
+                color: 0,0,0,1
+                size_hint: None, None
+                font_size:'30'
+
+        AnchorLayout:
+            anchor_x:"left"
+            anchor_y:"bottom"
+            padding:[10,0,0,-10]
+            Button:
+                text: 'Natrag'
+                size_hint: .15,.15
+                background_color: (0,0,0,0)
+                background_normal:''
+                on_press: root.manager.current = 'welcomescreen'
+                Image:
+                    source:"images/back_button.png"
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
+                    size:110,200
+                    allow_stretch: True
+
+
+        AnchorLayout:
+            anchor_x:'center'
+            anchor_y:'center'
+            Label:
+                id: _error_label
+                text: "Error Username/Password"
+                pos: 350, 150
+                font_size: 12
+                color: 0,0,0,0
+
+
+
+
+    CustomTextInput:
+        id: _username
+        center_x: (root.width/2)
+        top: (root.top/2)+ 100
+        size_hint: None,None
+        hint_text: "Username"
+
+
+
+
+    CustomTextInput:
+        id: _password
+        center_x: (root.width/2)
+        top: (root.top/2) + 50
+        size_hint: None, None
+        hint_text: "password"
+        password: True
+
+
+    Button:
+        id: _confirm_btn
+        size_hint:.17,.1
+        pos: 350, 150
+        font_size: 18
+        background_color: (1,1,1,0.3)
+        text: "Login"
+        on_release:
+            root.do_login(_username.text,_password.text)
+
+
+

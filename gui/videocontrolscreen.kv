@@ -1,0 +1,103 @@
+# Filename: videoscreen.kv
+#: import videocontrolscreen videocontrolscreen
+#:import Factory kivy.factory.Factory
+
+
+
+
+
+<VideoControlScreen>:
+    name: 'videocontrolscreen'
+    id: _videocontrolscreen
+
+    FloatLayout:
+        id: container
+        canvas.before:
+            Rectangle:
+                pos: root.pos
+                size:root.size
+                source: 'images/background.png'
+
+        AnchorLayout:
+            anchor_x:"right"
+            anchor_y:"top"
+
+            BoxLayout:
+                id: _box_container
+                orientation: 'vertical'
+                size_hint:None,.8
+                width: root.width/2
+                spacing: 20
+
+
+        AnchorLayout:
+            anchor_x:"center"
+            anchor_y:"bottom"
+
+            BoxLayout:
+                orientation: 'horizontal'
+                size_hint: .5, None
+                height: 50
+                spacing: 10
+
+                Button:
+                    id: _load_btn
+                    text: "load"
+                    on_press: root.copy_selected()
+
+                Button:
+                    id: _paste_btn
+                    text: "paste"
+                    on_press: root.paste_selected()
+
+                Button:
+                    id: _delete_btn
+                    text: "delete"
+                    on_press: root.delete_video()
+
+
+
+        AnchorLayout:
+            anchor_x:"left"
+            anchor_y:"top"
+            padding:[0,0,0,0]
+            Label:
+                id: _screen
+                text: "Postavke Reklamiranja"
+                color: 0,0,0,1
+                size_hint: 0.5, None
+                font_size:'30'
+                halign:"left"
+
+        AnchorLayout:
+            anchor_x:"left"
+            anchor_y:"bottom"
+            padding:[10,0,0,-10]
+            Button:
+                text: 'Natrag'
+                size_hint: .15,.15
+                background_color: (0,0,0,0)
+                background_normal:''
+                on_press: root.manager.current = 'welcomescreen'
+                Image:
+                    source:"images/back_button.png"
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
+                    size:110,200
+                    allow_stretch: True
+
+        AnchorLayout:
+            anchor_x:"left"
+            anchor_y:"top"
+            padding:[10,90,0,0]
+            Button:
+                id: _video_button_control
+                text: 'Disable video'
+                size_hint: .25,.15
+                font_size: 18
+                on_press: root.video_permission()
+
+
+
+
+

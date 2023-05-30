@@ -1,0 +1,17 @@
+# Filename: videoscreen.kv
+#: import videoscreen videoscreen
+
+
+<Videoscreen>:
+    name: 'videoscreen'
+    id: _videoscreen
+
+    FloatLayout:
+        id: _container
+        canvas.before:
+            Rectangle:
+                pos: root.pos
+                size:root.size
+                source:  'images/background.png'
+
+

@@ -1,0 +1,135 @@
+# file name: diagnosticscreen.kv
+#:import diagnosticscreen diagnosticscreen
+
+<DiagnosticScreen>:
+    name: 'diagnosticscreen'
+    id : _diagnosticscreen
+
+    FloatLayout:
+        BackgroundScreen:
+            id: _backgroundscreen
+
+        AnchorLayout:
+            anchor_x:"center"
+            anchor_y:"top"
+            padding:[0,0,0,0]
+            Label:
+                id: _screen
+                text: "Diagnostic"
+                color: 0,0,0,1
+                size_hint: None, None
+                font_size:'30'
+        AnchorLayout:
+            anchor_x:"left"
+            anchor_y:"bottom"
+            padding:[10,0,0,-10]
+            Button:
+                text: 'Natrag'
+                size_hint: .15,.15
+                background_color: (0,0,0,0)
+                background_normal:''
+                on_press: root.manager.current = 'welcomescreen'
+                Image:
+                    source:"images/back_button.png"
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
+                    size:110,200
+                    allow_stretch: True
+
+            AnchorLayout:
+
+                anchor_x:"left"
+                anchor_y:"top"
+                padding:[10,100,0,0]
+                GridLayout:
+                    rows:6
+                    cols:2
+                    spacing:20,35
+                    row_default_height: 30
+                    row_force_default: True
+
+                    Image:
+                        id: _cctalk_img_status
+                        source: 'images/green_ok.png'
+                        size_hint_x: None
+                        width:30
+                        allow_stretch: False
+                        keep_ratio: False
+
+                    Label:
+                        id: _cctalk_lbl_status
+                        text: "ccTalk communication status"
+                        size_hint_x:None
+                        width:300
+                        halign: 'left'
+                        valign:'middle'
+                        text_size: self.size
+
+                    Image:
+                        id: _coin_img_status
+                        source: 'images/green_ok.png'
+                        size_hint_x: None
+                        width:30
+                        allow_stretch: False
+                        keep_ratio: False
+
+                    Label:
+                        id: _coin_lbl_status
+                        text: "Coin validator status"
+                        size_hint_x:None
+                        width:300
+                        halign: 'left'
+                        valign:'middle'
+                        text_size: self.size
+                    Image:
+                        id: _bill_img_status
+                        source: 'images/green_ok.png'
+                        size_hint_x:None
+                        width:30
+
+                        allow_stretch: False
+                        keep_ratio: False
+
+                    Label:
+                        id: _bill_lbl_status
+                        text: "Bill validator status"
+                        size_hint_x:None
+                        width:300
+                        halign: 'left'
+                        valign:'middle'
+                        text_size: self.size
+
+
+                    Image:
+                        id: _hopper_img_status
+                        source: 'images/green_ok.png'
+                        size_hint: None,.1
+                        allow_stretch: False
+                        keep_ratio: False
+                        size_hint_x:None
+                        width:30
+                    Label:
+                        id: _hopper_lbl_status
+                        text: "Hopper status"
+                        size_hint_x:None
+                        width:300
+                        halign: 'left'
+                        valign:'middle'
+                        text_size: self.size
+
+                    Image:
+                        id: _printer_img_status
+                        source: 'images/green_ok.png'
+                        size_hint_x:None
+                        width:30
+                        allow_stretch: False
+                        keep_ratio: False
+
+                    Label:
+                        id: _printer_lbl_status
+                        text: "Printer status"
+                        size_hint_x:None
+                        width:300
+                        halign: 'left'
+                        valign:'middle'
+                        text_size: self.size

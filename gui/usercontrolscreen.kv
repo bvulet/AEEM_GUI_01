@@ -1,0 +1,192 @@
+# file name: usercontrolscreen.kv
+#:import usercontrolscreen usercontrolscreen
+
+
+<User_button_device@Button>:
+
+    size_hint_x:None
+    width:200
+    font_size: 18
+
+<Status_light@Image>:
+
+    size_hint_x: None
+    width:50
+    allow_stretch: False
+    keep_ratio: False
+
+<Price_label@Label>:
+    size_hint_x:None
+
+    size: self.texture_size
+    halign: 'left'
+    valign:'middle'
+
+
+<PasswordInput@TextInput>:
+
+    background_color: [0.0,0.0,0.0,0.4]
+    size_hint_x: None
+    width: 150
+    max_lines: 1
+    valign: 'middle'
+    halign: 'center'
+    font_size: 15
+    multiline: False
+    is_focusable: True
+
+<UsercontrolScreen>:
+    name: 'usercontrolscreen'
+    id : _usercontrolscreen
+
+    FloatLayout:
+        BackgroundScreen:
+            id: _backgroundscreen
+
+        AnchorLayout:
+            anchor_x:"center"
+            anchor_y:"top"
+            padding:[0,0,0,0]
+            Label:
+                id: _screen
+                text: "User Control Screen"
+                color: 0,0,0,1
+                size_hint: None, None
+                font_size:'30'
+        AnchorLayout:
+            anchor_x:"left"
+            anchor_y:"bottom"
+            padding:[10,0,0,-10]
+            Button:
+                text: 'Natrag'
+                size_hint: .15,.15
+                background_color: (0,0,0,0)
+                background_normal:''
+                on_press: root.manager.current = 'developerscreen'
+                Image:
+                    source:"images/back_button.png"
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
+                    size:110,200
+                    allow_stretch: True
+
+        AnchorLayout:
+            anchor_x:"left"
+            anchor_y:"center"
+            padding:[10,0,0,270]
+            Label:
+                id: _diag_text_pass
+                text: "Promjena šifre za dijagnostiku"
+                size_hint_x:None
+                size: self.texture_size
+                halign: 'left'
+                valign:'middle'
+
+
+        AnchorLayout:
+            anchor_x:"left"
+            anchor_y:"center"
+            padding:[10,0,0,130]
+            GridLayout:
+                rows:1
+                cols:2
+                spacing:10,10
+                row_default_height: 35
+                row_force_default: True
+                size_hint:None,None
+
+                PasswordInput:
+                    id: _old_diag_pass
+                    hint_text: "unesite novu šifru"
+
+
+
+                User_button_device:
+                    id:_confirm_old_diag_pass
+                    text: "Potvrdi šifru"
+                    width: 150
+                    on_release: root.change_password(_old_diag_pass,_old_diag_pass.text)
+
+
+
+
+
+
+        AnchorLayout:
+            anchor_x:"right"
+            anchor_y:"center"
+            padding:[0,0,100,270]
+            Label:
+                id: _dev_text_pass
+                text: "Promjena šifre za Programiranje"
+                size_hint_x:None
+                size: self.texture_size
+                halign: 'left'
+                valign:'middle'
+
+        AnchorLayout:
+            anchor_x:"right"
+            anchor_y:"center"
+            padding:[0,0,250,130]
+            GridLayout:
+                rows:1
+                cols:2
+                spacing:10,10
+                row_default_height: 35
+                row_force_default: True
+                size_hint:None,None
+
+                PasswordInput:
+                    id: _old_dev_pass
+                    hint_text: "unesite novu šifru"
+
+
+
+                User_button_device:
+                    id:_confirm_old_dev_pass
+                    text: "Potvrdi šifru"
+                    width: 150
+                    on_release: root.change_password(_old_dev_pass,_old_dev_pass.text)
+
+
+
+# video
+
+
+        AnchorLayout:
+            anchor_x:"center"
+            anchor_y:"center"
+            padding:[0,0,0,110]
+            Label:
+                id: _video_text_pass
+                text: "Promjena šifre za video reklame"
+                size_hint_x:None
+                size: self.texture_size
+                halign: 'left'
+                valign:'middle'
+
+
+        AnchorLayout:
+            anchor_x:"center"
+            anchor_y:"center"
+            padding:[0,20,80,0]
+            GridLayout:
+                rows:1
+                cols:2
+                spacing:10,10
+                row_default_height: 35
+                row_force_default: True
+                size_hint:None,None
+
+                PasswordInput:
+                    id: _old_video_pass
+                    hint_text: "unesite novu šifru"
+
+
+
+                User_button_device:
+                    id:_confirm_old_video_pass
+                    text: "Potvrdi šifru"
+                    width: 150
+                    on_release: root.change_password(_old_video_pass,_old_video_pass.text)
+

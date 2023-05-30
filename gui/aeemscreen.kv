@@ -1,0 +1,56 @@
+# Filename: aeemscreen.kv
+
+
+#:import FadeTransition kivy.uix.screenmanager.FadeTransition
+
+<ScreenManagement>:
+    transition: FadeTransition()
+    InitScreen:
+        name: 'initscreen'
+        on_pre_enter: root.on_enter_screen()
+        on_pre_leave: root.on_leave_screen()
+
+
+    WelcomeScreen:
+        name: 'welcomescreen'
+        on_enter:
+            root.on_enter_screen()
+        on_pre_leave: root.on_leave_screen()
+    PaymentScreen:
+        name:'paymentscreen'
+        on_enter: root.on_enter_screen()
+        on_pre_leave: root.on_leave_screen()
+    NaplataScreen:
+        name:'naplatascreen'
+        on_enter: root.on_enter_screen()
+        on_pre_leave: root.on_leave_screen()
+    LoginScreen:
+        name:'loginscreen'
+        on_enter: root.on_enter_screen()
+        on_pre_leave: root.on_leave_screen()
+    DiagnosticScreen:
+        name:'diagnosticscreen'
+        on_enter:
+            root.on_enter_screen()
+        on_pre_leave: root.on_leave_screen()
+
+    DeveloperScreen:
+        name: "developerscreen"
+        on_enter:
+            root.on_enter_screen()
+        on_pre_leave: root.on_leave_screen()
+
+    UsercontrolScreen:
+        name:"usercontrolscreen"
+        on_enter:
+            root.on_enter_screen()
+        on_pre_leave: root.on_leave_screen()
+
+    VideoScreen:
+        name:"videoscreen"
+
+    VideoControlScreen:
+        name: "videocontrolscreen"
+        on_enter:
+            root.on_enter_screen()
+        on_pre_leave: root.on_leave_screen()

@@ -1,0 +1,128 @@
+# Filename: welcomescreen.kv
+#: import welcomescreen welcomescreen
+<WelcomeButton@Button>:
+    size_hint: .1,.1
+    background_color: 0,0,0,0
+    background_normal:''
+    radius: [50]
+
+
+<WelcomeScreen>:
+    name: 'welcomescreen'
+    backgroundscreen:_backgroundscreen
+
+    FloatLayout:
+        id: _welcome_layout
+        _anim_color: 1,1,1,1
+        canvas.after:
+            Color:
+                rgba: self._anim_color
+            Line
+                points:
+                    (self.center_x-170, self.top-80, self.center_x-170, self.top-60,
+                    self.center_x-170, self.top-80, self.center_x-150, self.top-80)
+
+            Line
+                points:
+                    (self.center_x-170, self.top-5, self.center_x-170, self.top-25,
+                    self.center_x-170, self.top-5, self.center_x-150, self.top-5)
+
+
+            Line
+                points:
+                    (self.center_x+180, self.top-5, self.center_x+180, self.top-25,
+                    self.center_x+180, self.top-5, self.center_x+160, self.top-5)
+
+            Line
+                points:
+                    (self.center_x+180, self.top-80, self.center_x+180, self.top-60,
+                    self.center_x+180, self.top-80, self.center_x+160, self.top-80)
+
+
+
+
+
+
+
+
+        BackgroundScreen:
+            id: _backgroundscreen
+
+
+
+
+        Label:
+
+            id: _izab_jezik
+            text: "Molimo izaberite jezik"
+            color: 0,0,0,1
+            pos:10, 220
+            font_size:'30'
+
+        Label:
+            id: _izab_jezik
+            text: "Please select a language"
+            color: 0,0,0,1
+            pos:10, 180
+            font_size:'30'
+
+        WelcomeButton:
+            id: _welcomeint
+
+
+            pos_hint: {'center_x':0.35, 'center_y':0.5}
+            on_press:
+                root.detect_int_press()
+
+            on_release:
+                root.detect_int_release()
+            Image:
+                id: _welcome_int_image
+                source:"images/world.png"
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+
+        WelcomeButton:
+
+            id: _welcomebih
+
+
+            pos_hint: {'center_x':0.7, 'center_y':0.5}
+
+            on_press:
+                root.detect_hr_press()
+
+
+            on_release:
+                root.detect_hr_release()
+            Image:
+                id: _welcome_hr_image
+                source:"images/bih_png.png"
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+
+
+
+
+
+
+
+
+        Button:
+            id: _advanced
+            size_hint:.12,.15
+            background_color: 0,0,0,0
+            pos_hint: {'right':.95,'top':.3}
+            on_press:
+                root.enter_image_screen();
+                root.manager.current = 'loginscreen'
+            on_release: root.exit_image()
+
+            Image:
+                id: _logoadvanced
+                source: 'images/logo_01.png'
+                size_hint: root.width, root.height
+                allow_stretch: False
+                keep_ratio: False
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y

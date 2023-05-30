@@ -1,0 +1,58 @@
+# File name initscreen.kv
+#: import initscreen initscreen
+#:import Label kivy.core.text.Label
+
+
+
+<InitScreen>:
+    name: 'initscreen'
+    id : _initscreen
+
+    FloatLayout:
+        id: container
+        canvas.before:
+            Rectangle:
+                pos: root.pos
+                size:root.size
+                source: 'images/background.png'
+
+        Widget:
+            id: _init_line
+            _position_x : root.width/2
+            _position_y : root.top/2+50
+            _radius_internal : 50
+            _angle_start_internal : 90
+            _angle_end_internal : 360
+            _segments_internal:100
+
+            canvas:
+                Line:
+                    circle:
+                        self._position_x, self._position_y,self._radius_internal, self._angle_start_internal,\
+                        self._angle_end_internal, self._segments_internal
+
+                    width: 5
+
+
+
+            Label:
+                id: _init_inform
+                text: "Loading...."
+                size_hint_x:None
+                size: self.texture_size
+                center_x: (root.width/2)
+                top: (root.top/2-30)
+                halign: 'left'
+                valign:'middle'
+
+
+        Image:
+
+            id: _welcome_icon
+            center_x: (root.width/2-50)
+            top: (root.top/2-150)
+            source: 'images/logo_01.png'
+            size_hint:(.2,.2)
+
+
+

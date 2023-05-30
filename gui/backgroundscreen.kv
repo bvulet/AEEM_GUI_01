@@ -1,0 +1,21 @@
+# File name: backgroundscreen.kv
+#:import backgroundscreen backgroundscreen
+
+<BackgroundScreen>:
+    id: 'background'
+    time:_time
+
+    Image:
+        id: _background_img
+        source: 'images/background.png'
+        size: 800, 480
+        allow_stretch: True
+        keep_ratio: False
+
+    Label:
+        id: _time
+        text:'[b]00[/b]:00:00'
+        #size_hint:1,1
+        font_size:'25'
+        pos:10,-225
+
