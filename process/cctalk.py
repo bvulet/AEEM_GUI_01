@@ -14,6 +14,11 @@ class Serial_comm(threading.Thread):
         self.stringvar = "this"
         self.my_queue = deque([0,0,0,1,1,1])
         self.model = model
+        self.coin_status_q = queue.Queue()
+        self.coin_payment_q = queue.Queue()
+        self._lock = threading.Lock()
+        self.log_file = "devices_log.log"
+        self.device_log = None
 
 
     def run(self):

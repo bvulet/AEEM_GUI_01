@@ -1,7 +1,7 @@
 # ---------------------------
 # file name App.py
 # --------------------------
-
+# Main app script used to start all
 
 from kivy.app import App
 from kivy.uix.screenmanager import Screen
@@ -11,6 +11,7 @@ from aeemscreen import ScreenManagement
 from APM import AutomatedParkingManagement
 from APB import Controller
 from device_control import SerialDevices
+from cctalk import Serial_comm
 import os
 
 # ---------------------------------
@@ -39,7 +40,7 @@ class AeemScreenApp(App, Screen):
         model.set_controller(controller)
         view.set_controller(controller)
 
-        cctalk = SerialDevices(model)
+        cctalk = Serial_comm(model)
         model.set_communication(cctalk)
         model.coin_inform_device()
         return view

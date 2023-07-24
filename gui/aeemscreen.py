@@ -1,7 +1,7 @@
 #------------------------------
 # File name aeemscreen.py
 #------------------------------
-
+# manager for custom screen events
 
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
