@@ -16,28 +16,10 @@ class PaymentScreen(Screen):
         self.dismiss_pop_time = 5
 
     def on_enter(self):
-        self.time_select_deselect("", None, None)
+       return
 
-    def time_select_deselect(self, instance, value, time):
 
-        if value == 'down':
-            self.manager.controller.time_selection(time)
 
-        elif value == 'normal':
-            self.manager.controller.time_selection(None)
-            self.ids._selectoption._option_color = (.1, 1, .1, .9)
-            self.ids._priceview._option_color = (1, 1, 1, 1)
-
-        else:  # prvi ulaz
-            self.manager.controller.time_selection(None)
-            self.ids._selectoption._option_color = (.1, 1, .1, .9)
-            self.ids._priceview._option_color = (1, 1, 1, 1)
-
-    def time_selection_show(self, price, time):
-
-        self.ids._cost_selected.text = price
-        self.ids._selectoption._option_color = (1, 1, 1, 1)
-        self.ids._priceview._option_color = (.1, 1, .1, .9)
 
     def amountinserted(self, inserted_amount):
 

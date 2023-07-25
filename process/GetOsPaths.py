@@ -9,14 +9,17 @@ import win32file
 import shutil
 
 class GetOsPaths:
+
+    rel_dir = "aps_data"        #relative app directory
+    lin_rel_path = "var/lib"    # linux relative app directory
+    def_dir_name = "def_dir"    # default directory for videos and logger
+
     def __init__(self):
         self.os_type = None
         self.asset_path = None
         self.rel_path = None
         self.check_operating_system()
-        self.rel_dir = "aps_data"
-        self.lin_rel_path = "var/lib"
-        self.def_dir_name = "def_dir"
+
 
 
     def check_operating_system(self):
@@ -27,7 +30,7 @@ class GetOsPaths:
 
         elif sys.platform.startswith('linux'):
             self.os_type = 'linux'
-            self.rel_path = self.lin_rel_path
+            self.rel_path = GetOsPaths.lin_rel_path
 
 
     def check_directory(self, directory): #logger
@@ -36,7 +39,7 @@ class GetOsPaths:
         system, then it uses a command to check if exists. If yes, pass, if no,
         create it."""
 
-        dir = os.path.join(self.rel_path, self.rel_dir, directory)
+        dir = os.path.join(self.rel_path, GetOsPaths.rel_dir, directory)
         isdir = os.path.isdir(dir)
         if isdir:
             return dir
@@ -56,7 +59,7 @@ class GetOsPaths:
     def default_dir(self,  directory):
 
         mod_path = Path(__file__).parent.parent
-        def_directory = (mod_path / self.def_dir_name/ directory).resolve()
+        def_directory = (mod_path / GetOsPaths.def_dir_name/ directory).resolve()
         return def_directory
 
 
@@ -70,9 +73,6 @@ class GetOsPaths:
                 return None
             else:
                 return str(rdrives[0])
-
-
-
 
 
 

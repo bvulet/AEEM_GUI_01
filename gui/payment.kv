@@ -26,12 +26,7 @@
     backgroundscreen:_backgroundscreen
     on_pre_enter:
         min_15.state = 'normal'
-        min_30.state = 'normal'
-        min_45.state = 'normal'
-        hour_1.state = 'normal'
-        hour_2.state = 'normal'
-        hour_24.state = 'normal'
-        _cost_selected.text = "Selected"
+
 
 
     name: 'paymentscreen'
@@ -77,131 +72,22 @@
                 on_state: root.time_select_deselect(*args,'min_15')
 
 
-            Timetoggle:
-                id: min_30
-                text: '30 min'
-                on_state: root.time_select_deselect(*args,'min_30')
-
-            Timetoggle:
-                id: min_45
-                text: '45 min'
-                on_state: root.time_select_deselect(*args,'min_45')
-
-            Timetoggle:
-                id: hour_1
-                text: '1h'
-                on_state: root.time_select_deselect(*args,'hour_1')
-
-            Timetoggle:
-                id: hour_2
-                text: '2h'
-                on_state: root.time_select_deselect(*args,'hour_2')
-
-            Timetoggle:
-                id: hour_24
-                text: '24h'
-                on_state: root.time_select_deselect(*args,'hour_24')
-
-    AnchorLayout:
-        anchor_x:"left"
-        anchor_y:"top"
-        padding:[80,-10,0,0]
-
-        Label:
-            id: _selectoption
-            _option_color: 1,1,1,1
-            canvas.after:
-                Color:
-                    rgba: self._option_color
-
-                Line
-                    points:
-                        (self.center_x-120, self.top-70, self.center_x-120, self.top-60,
-                        self.center_x-120, self.top-70, self.center_x-110, self.top-70)
-
-                Line
-                    points:
-                        (self.center_x-120, self.top-30, self.center_x-120, self.top-40,
-                        self.center_x-120, self.top-30, self.center_x-110, self.top-30)
 
 
-                Line
-                    points:
-                        (self.center_x+120, self.top-70, self.center_x+120, self.top-60,
-                        self.center_x+120, self.top-70, self.center_x+110, self.top-70)
 
-                Line
-                    points:
-                        (self.center_x+120, self.top-30, self.center_x+120, self.top-40,
-                        self.center_x+120, self.top-30, self.center_x+110, self.top-30)
-
-            text: "1. Please select an option"
-            color: 0,0,0,1
-            size_hint: None, None
-            font_size:'20'
-            valign: 'middle'
-    AnchorLayout:
-        anchor_x:"center"
-        anchor_y:"center"
-        padding:[100,0,0,110]
-        Label:
-            id:_priceview
-            _option_color: 1,1,1,1
-            canvas.after:
-                Color:
-                    rgba: self._option_color
-
-                Line
-                    points:
-                        (self.center_x-60, self.top-65, self.center_x-60, self.top-55,
-                        self.center_x-60, self.top-65, self.center_x-50, self.top-65)
-
-                Line
-                    points:
-                        (self.center_x-60, self.top-30, self.center_x-60, self.top-40,
-                        self.center_x-60, self.top-30, self.center_x-50, self.top-30)
-
-
-                Line
-                    points:
-                        (self.center_x+60, self.top-65, self.center_x+60, self.top-55,
-                        self.center_x+60, self.top-65, self.center_x+50, self.top-65)
-
-                Line
-                    points:
-                        (self.center_x+60, self.top-30, self.center_x+60, self.top-40,
-                        self.center_x+60, self.top-30, self.center_x+50, self.top-30)
-            text: "2. Costing"
-            color: 0,0,0,1
-            size_hint: None, None
-            font_size:'20'
-            valign: 'middle'
     AnchorLayout:
         anchor_x:"center"
         anchor_y:"center"
         padding:[0,0,0,0]
 
         GridLayout:
-            rows:2
+            rows:1
             cols:2
             size_hint:None,None
 
             col_default_width:100
 
             col_force_default:True
-
-            Label:
-                id: _cost
-                text: "Price"
-                color: 1,1,1,1
-                font_size:'20'
-
-            Label:
-                id: _cost_selected
-                text: "Selected"
-                color: 1,1,1,1
-                font_size:'20'
-
 
             Label:
                 id: _amount

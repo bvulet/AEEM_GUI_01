@@ -1,6 +1,6 @@
 # ----------------------------
 # File name APB
-# Automated parking bridge
+# Automated parking controller
 # ----------------------------
 
 
@@ -10,40 +10,54 @@ from pathlib import Path
 from GetOsPaths import GetOsPaths
 
 
-class Controller:
+class Controller(GetOsPaths):
 
     def __init__(self, model, view):
 
         self.model = model
         self.logger = self.model.logger_start
         self.view = view
-        self.os_paths = GetOsPaths()
+        GetOsPaths.__init__(self)
+        #self.os_paths = GetOsPaths()
 
         self.amount_inserted = None
         self.selection_costing = None
+
         self.device_status = None
         self.device_code = None
+
         self.check_coin_bypass = False
         self.check_bill_bypass = False
         self.check_hooper_bypass = False
         self.all_bypass = False
+
         self.enable_payment = False
+
         self.video_directory = None
         self.usb_directorys = None
         self.video_dir = "video_dir"
         self.linux_rel_video_dir = ""
         self.linux_video_dir = None
         self.device_initialization()
-       # self.screenbyid = dict [
 
-
-          #                               ];
     def device_initialization(self):
 
         self.user_accounts()
         self.master_user_accounts()
 
+    def user_accounts(self):
 
+        self.view.get_screen("loginscreen").account_setup(self.model.dev_user, self.model.dev_pass,
+                                                          self.model.diag_user, self.model.diag_pass,
+                                                          self.model.video_user, self.model.video_pass)
+
+    def master_user_accounts(self):
+
+        self.view.get_screen("loginscreen").master_account_setup(self.model.dev_master_user, self.model.dev_master_pass,
+                                                                 self.model.diag_master_user,
+                                                                 self.model.diag_master_pass,
+                                                                 self.model.video_master_user,
+                                                                 self.model.video_master_pass)
 
     def price_set(self, id_sel, value):
         """ Used for price init or price changing directly from GUI
@@ -219,19 +233,7 @@ class Controller:
         self.view.get_screen("diagnosticscreen").device_status(self.model.hooper_device_name, self.model.hooper_status,
                                                                self.model.hooper_code)
 
-    def user_accounts(self):
 
-        self.view.get_screen("loginscreen").account_setup(self.model.dev_user, self.model.dev_pass,
-                                                          self.model.diag_user, self.model.diag_pass,
-                                                          self.model.video_user, self.model.video_pass)
-
-    def master_user_accounts(self):
-
-        self.view.get_screen("loginscreen").master_account_setup(self.model.dev_master_user, self.model.dev_master_pass,
-                                                                 self.model.diag_master_user,
-                                                                 self.model.diag_master_pass,
-                                                                 self.model.video_master_user,
-                                                                 self.model.video_master_pass)
 
     def inform_pass_change(self, state, information):
         self.view.get_screen("usercontrolscreen").popoutselect(state, information)
@@ -309,9 +311,9 @@ class Controller:
 
     def video_start_state(self, first_start):
 
-        video_directory = self.os_paths.check_directory(self.video_dir) #logger
+        video_directory = self.check_directory(self.video_dir) #logger
 
-        usb_directorys = self.os_paths.get_removable_drives()
+        usb_directorys = self.get_removable_drives()
 
 
         if usb_directorys is None:
@@ -354,8 +356,8 @@ class Controller:
 
 
     def update_video_playlist(self, playlist_directory):
-        directory = self.os_paths.update_video_playlist(playlist_directory)
-        self.view.get_screen("videoscreen").video_directory(directory)
+        #directory = self.update_video_playlist(playlist_directory)
+        self.view.get_screen("videoscreen").video_directory(video_source)
 
     def unload_video_file(self):
         self.view.get_screen("videoscreen").unload_video()
