@@ -8,17 +8,19 @@ import shutil
 import os
 from pathlib import Path
 from GetOsPaths import GetOsPaths
+from ManageVideos import ManageVideos
+from UserAccounts import UserAccounts
 
-
-class Controller(GetOsPaths):
+class Controller():
 
     def __init__(self, model, view):
 
         self.model = model
         self.logger = self.model.logger_start
         self.view = view
-        GetOsPaths.__init__(self)
-        #self.os_paths = GetOsPaths()
+        self.os_paths = GetOsPaths()
+        self.user_account = UserAccounts(self.view, self.model)
+        self.manage_videos = ManageVideos(self.view)
 
         self.amount_inserted = None
         self.selection_costing = None
@@ -35,29 +37,13 @@ class Controller(GetOsPaths):
 
         self.video_directory = None
         self.usb_directorys = None
+
         self.video_dir = "video_dir"
         self.linux_rel_video_dir = ""
         self.linux_video_dir = None
-        self.device_initialization()
 
-    def device_initialization(self):
 
-        self.user_accounts()
-        self.master_user_accounts()
 
-    def user_accounts(self):
-
-        self.view.get_screen("loginscreen").account_setup(self.model.dev_user, self.model.dev_pass,
-                                                          self.model.diag_user, self.model.diag_pass,
-                                                          self.model.video_user, self.model.video_pass)
-
-    def master_user_accounts(self):
-
-        self.view.get_screen("loginscreen").master_account_setup(self.model.dev_master_user, self.model.dev_master_pass,
-                                                                 self.model.diag_master_user,
-                                                                 self.model.diag_master_pass,
-                                                                 self.model.video_master_user,
-                                                                 self.model.video_master_pass)
 
     def price_set(self, id_sel, value):
         """ Used for price init or price changing directly from GUI
@@ -240,9 +226,11 @@ class Controller(GetOsPaths):
         self.view.get_screen("usercontrolscreen").reset_text_input()
 
     def change_user_passwords(self, id, password):
+
         """ function for changing diagnostic or development user screen. Here it looks after type of password
         it will be able to insert it as a string but also will show an error if it has a lenght less than 4 or
         just numbers"""
+
         if len(password) > 4 and any(element.isupper() for element in password):
             if id == "_old_diag_pass":
 
@@ -273,12 +261,17 @@ class Controller(GetOsPaths):
         else:
             self.inform_pass_change("req_error", "Diagnostic Screen")
 
+
+
+
+
     def check_prices(self):
 
         id_price = list(self.model.price_selected.keys())
         price = list(self.model.price_selected.values())
 
         self.view.get_screen("developerscreen").show_old_prices(id_price, price, self.model.price_currency)
+
 
     def inform_first_start_device_check(self):
         if self.model.all_disable:
@@ -305,18 +298,25 @@ class Controller(GetOsPaths):
         else:
             self.view.get_screen("developerscreen").inform_disable("hooper_enable")
 
+
+
+
     def start_devices(self):
 
         self.model.clear_registered_amount()  # mozda promijeniti da sprema lovu
 
+
+
+
+
     def video_start_state(self, first_start):
 
-        video_directory = self.check_directory(self.video_dir) #logger
+        video_directory = self.os_paths.check_directory(self.video_dir) #logger
 
-        usb_directorys = self.get_removable_drives()
+        usb_directorys = self.os_paths.get_removable_drives()
 
 
-        if usb_directorys is None:
+        if usb_directorys is None: # nisam siguran treba li ovo ili da ne prikaze nista
             usb_directorys = video_directory
 
         self.view.get_screen("videocontrolscreen").destination_folder_connect(video_directory, usb_directorys)
@@ -329,6 +329,7 @@ class Controller(GetOsPaths):
 
         else:
             pass
+
 
     def video_control_and_permission(self):
 
@@ -343,21 +344,22 @@ class Controller(GetOsPaths):
         self.view.get_screen("videocontrolscreen").inform_video_user(self.model.video_permission)
         self.view.get_screen("welcomescreen").video_permission_control(self.model.video_permission)
 
+
     def trigger_video_exit(self):
         self.view.get_screen("videoscreen").trigger_exit()
 
     def save_folder_managing(self, copied_path, paste_path):
-       inform_action = self.os_paths.save_folder_managing(copied_path, paste_path)
-       self.view.get_screen("videocontrolscreen").inform_user(inform_action)
+       self.view.get_screen("videocontrolscreen").inform_user(
+           self.os_paths.save_folder_managing(copied_path, paste_path))
 
     def delete_folder_managing(self, directory):
-        inform_action = self.os_paths.delete_folder_managing(directory)
-        self.view.get_screen("videocontrolscreen").inform_user(inform_action)
+        self.view.get_screen("videocontrolscreen").inform_user(
+            self.os_paths.delete_folder_managing(directory))
 
 
     def update_video_playlist(self, playlist_directory):
-        #directory = self.update_video_playlist(playlist_directory)
-        self.view.get_screen("videoscreen").video_directory(video_source)
+        self.view.get_screen("videoscreen").video_directory(
+            self.manage_videos.update_video_playlist(playlist_directory))
 
     def unload_video_file(self):
         self.view.get_screen("videoscreen").unload_video()
