@@ -13,6 +13,9 @@ class GetOsPaths:
     rel_dir = "aps_data"        #relative app directory
     lin_rel_path = "var/lib"    # linux relative app directory
     def_dir_name = "def_dir"    # default directory for videos and logger
+    video_dir = "NiVu_def_video"
+
+
 
     def __init__(self):
         self.os_type = None
