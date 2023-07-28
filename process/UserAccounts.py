@@ -25,6 +25,7 @@ class UserAccounts:
         self.model = model
         self.set_account_info()
 
+#ici ce iz view prema logeru koji ce promijeniti sifru
     def change_user_passwords(self, id, password):
         """ function for changing diagnostic or development user screen. Here it looks after type of password
         it will be able to insert it as a string but also will show an error if it has a lenght less than 4 or
@@ -71,3 +72,11 @@ class UserAccounts:
                                                                  self.model.diag_master_pass,
                                                                  self.model.video_master_user,
                                                                  self.model.video_master_pass)
+    #ici ce iz logera prema ovoj klasi
+    def inform_pass_change(self, state, information):
+        self.view.get_screen("usercontrolscreen").popoutselect(state, information)
+        self.view.get_screen("usercontrolscreen").reset_text_input()
+
+
+
+

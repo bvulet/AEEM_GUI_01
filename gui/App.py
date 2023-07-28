@@ -12,6 +12,8 @@ from APM import AutomatedParkingManagement
 from APB import Controller
 from device_control import SerialDevices
 from cctalk import Serial_comm
+from UserAccounts import UserAccounts
+from GetOsPaths import GetOsPaths
 import os
 
 # ---------------------------------
@@ -28,15 +30,25 @@ Config.set('graphics', 'resizable', '0')
 Config.set('input', 'mouse', 'mouse, disable_multitouch')
 Config.write()
 
+# sve postavke direktorija i videa ce biti ovdje
+
+#------------------------------------
+#  Program parameters
+#------------------------------------
+logger_file_name = "APM_logger.log"
+device_config_file_name = "./user.ini"
+
 
 class AeemScreenApp(App, Screen):
     def __init__(self, **kwargs):
         super(AeemScreenApp, self).__init__()
 
     def build(self):
+        get_os = GetOsPaths()
         model = AutomatedParkingManagement()
         view = ScreenManagement(Window)
-        controller = Controller(model, view)
+        user_accounts = UserAccounts(view, model)
+        controller = Controller(get_os, user_accounts, model, view)
         model.set_controller(controller)
         view.set_controller(controller)
 

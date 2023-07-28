@@ -4,22 +4,19 @@
 # ----------------------------
 
 
-import shutil
-import os
-from pathlib import Path
-from GetOsPaths import GetOsPaths
+
 from ManageVideos import ManageVideos
-from UserAccounts import UserAccounts
+
 
 class Controller():
 
-    def __init__(self, model, view):
+    def __init__(self, get_os, user_accounts, model, view):
 
         self.model = model
         self.logger = self.model.logger_start
         self.view = view
-        self.os_paths = GetOsPaths()
-        self.user_account = UserAccounts(self.view, self.model)
+        self.os_paths = get_os
+        self.user_account = user_accounts
         self.manage_videos = ManageVideos(self.view)
 
         self.amount_inserted = None
@@ -220,11 +217,11 @@ class Controller():
                                                                self.model.hooper_code)
 
 
-
+# ovo ce otici odavdje
     def inform_pass_change(self, state, information):
         self.view.get_screen("usercontrolscreen").popoutselect(state, information)
         self.view.get_screen("usercontrolscreen").reset_text_input()
-
+# ovo ce otici odavdje
     def change_user_passwords(self, id, password):
 
         """ function for changing diagnostic or development user screen. Here it looks after type of password
