@@ -6,17 +6,31 @@
 
 
 from ManageVideos import ManageVideos
+from UserAccounts import UserAccounts
+from DataHandling import DataHandling
 
 
 class Controller():
 
-    def __init__(self, get_os, user_accounts, model, view):
+    def __init__(self, get_os, logger_file, model, view, users,
+                 users_pass, master_user, master_user_pass, user_config_sections,
+                 user_config, device_config):
 
         self.model = model
+        self.logger_file = logger_file
         self.logger = self.model.logger_start
         self.view = view
         self.os_paths = get_os
-        self.user_account = user_accounts
+        self.users = users
+        self.users_pass = users_pass
+        self.master_user = master_user
+        self.master_user_pass = master_user_pass
+
+        self.user_config = user_config
+        self.device_config = device_config
+        self.user_account = UserAccounts(self.view, self.model, get_os, users, users_pass,
+                                         master_user, master_user_pass, user_config_sections, user_config)
+
         self.manage_videos = ManageVideos(self.view)
 
         self.amount_inserted = None

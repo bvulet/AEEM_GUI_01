@@ -1,6 +1,7 @@
 # ne bi bilo lose odmah ovdje rijesiti upis u neki file
 #korisnika
 
+from DataHandling import DataHandling
 class UserAccounts:
 
     diag_master_pass = "8765"
@@ -13,16 +14,22 @@ class UserAccounts:
     video_master_pass = "9876"
 
 
-    def __init__(self, view, model):
+    def __init__(self, view, model, get_os,
+                 users, user_pass, master_user,
+                 master_user_pass, user_config_sections,
+                 config_file):
 
-        self.diag_pass = "1234"
-        self.diag_user = "diag"
-        self.dev_pass = "5678"
-        self.dev_user = "dev"
-        self.video_user = "video"
-        self.video_pass = "1234"
+        self.users = users
+        self.user_pass = user_pass
+        self.master_user = master_user
+        self.master_user_pass = master_user_pass
+        self.user_config_sect = user_config_sections
+
+        self.configuration = DataHandling(get_os, config_file)
         self.view = view
         self.model = model
+
+        self.read_users()
         self.set_account_info()
 
 #ici ce iz view prema logeru koji ce promijeniti sifru
@@ -59,6 +66,23 @@ class UserAccounts:
                 self.inform_pass_change("fat_error", "error")
         else:
             self.inform_pass_change("req_error", "Diagnostic Screen")
+
+    def read_users(self):
+        read_user_data = self.configuration.read_config()
+        if read_user_data == False:
+            create_config = self.configuration.create_config_file(self.user_config_sect)
+            if create_config:
+                self.configuration.write_config("master_user", self.master_user)
+                self.configuration.write_config("master_passwords", self.master_user_pass)
+                self.configuration.write_config("users", self.users)
+                self.configuration.write_config("passwords", self.user_pass)
+                self.configuration.save_write_config()
+                read_user_data = self.configuration.read_config()
+            else:
+                raise Exception( self.user_config_sect)
+
+
+
 
 
     def set_account_info(self):

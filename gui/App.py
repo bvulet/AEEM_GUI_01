@@ -37,7 +37,24 @@ Config.write()
 #------------------------------------
 logger_file_name = "APM_logger.log"
 device_config_file_name = "./user.ini"
+users_config_file_name = "./user_accounts.ini"
 
+
+users_init = {"diag_user": "diag", "dev_user": "dev",
+              "video_user": "video"
+              }
+
+users_pass_init = {'diag_user': "1234", 'dev_user': "5678",
+                    "video_user": "1234"
+                    }
+master_user_init = { 'diag_user': "diagm", 'dev_user': "devm",
+                    'video_user': "videom"
+                    }
+master_pass_init = {'diag_user': "8765", 'dev_user': "4321",
+                    'video_user': "9876"
+                    }
+
+user_config_sections = ["master_user", "master_passwords", "users", "passwords"]
 
 class AeemScreenApp(App, Screen):
     def __init__(self, **kwargs):
@@ -47,8 +64,10 @@ class AeemScreenApp(App, Screen):
         get_os = GetOsPaths()
         model = AutomatedParkingManagement()
         view = ScreenManagement(Window)
-        user_accounts = UserAccounts(view, model)
-        controller = Controller(get_os, user_accounts, model, view)
+        controller = Controller(get_os, logger_file_name, model, view,
+                                users_init, users_pass_init, master_user_init,
+                                master_pass_init, user_config_sections, users_config_file_name,
+                                device_config_file_name)
         model.set_controller(controller)
         view.set_controller(controller)
 
