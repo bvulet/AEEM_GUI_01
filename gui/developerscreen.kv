@@ -40,12 +40,10 @@
     name: 'developerscreen'
     id : _developerscreen
     on_pre_enter:
-        _15_min_price.text = ''
-        _30_min_price.text = ''
-        _45_min_price.text = ''
-        _1_h_price.text = ''
-        _2_h_price.text = ''
-        _24_h_price.text = ''
+        _reg_price_1.text = ''
+        _reg_price_2.text = ''
+        _action_price_1.text = ''
+        _action_price_2.text = ''
        # root.request_old_prices()
 
     FloatLayout:
@@ -153,6 +151,42 @@
                         root.disable_devices("hooper")
 
 
+                Status_light:
+                    id: _printer_device_disabled_light
+                    source: 'images/green_ok.png'
+
+                User_button_device:
+                    id:_printer_device_disable_button
+                    text: "Disable Printer"
+                    on_press:
+                        root.disable_devices("printer")
+
+
+                Status_light:
+                    id: _air_pump_device_disabled_light
+                    source: 'images/green_ok.png'
+
+                User_button_device:
+                    id:_air_pump_device_disable_button
+                    text: "Disable Air Pump"
+                    on_press:
+                        root.disable_devices("air_pump")
+
+                User_button_device:
+
+                    id:_dual_currency_disable_button
+                    text: "Disable Dual Currency"
+                    on_press:
+                        root.disable_devices("dual_currency")
+
+                User_button_device:
+                    id:_payment_disable_button
+                    text: "Disable Payment"
+                    on_press:
+                        root.disable_devices("payment")
+
+
+
             AnchorLayout:
 
                 anchor_x:"left"
@@ -179,114 +213,77 @@
 
 
                     Price_label:
-                        id: _15_min_price_label
-                        text: "15 min old"
+                        id: _reg_price_1_label
+                        text: "regular price 1"
 
 
                     PriceInput:
-                        id: _15_min_price
-                        hint_text: "insert new 15 min price"
+                        id: _reg_price_1
+                        hint_text: "insert new price 1"
                         input_type: 'number'
 
 
                     User_button_device:
-                        id:_confirm_15_button
-                        text: "Confirm 15 min"
+                        id:_confirm_1_button
+                        text: "Confirm 1 Price"
                         width: 150
-                        on_release: root.request_new_prices(_15_min_price,_15_min_price.text)
+                        on_release: root.request_new_prices(_reg_price_1,_reg_price_1.text)
 
 
 
 
                     Price_label:
-                        id: _30_min_price_label
-                        text: "30 min old"
+                        id: _reg_price_2_label
+                        text: "regular price 2"
 
 
                     PriceInput:
-                        id: _30_min_price
-                        hint_text: "insert new 30 min price"
+                        id: _reg_price_2
+                        hint_text: "Insert New Price 2"
 
 
 
                     User_button_device:
-                        id:_confirm_30_button
-                        text: "Confirm 30 min"
+                        id:_confirm_2_button
+                        text: "Confirm 2 Price"
                         width: 150
-                        on_release: root.request_new_prices(_30_min_price,_30_min_price.text)
+                        on_release: root.request_new_prices(_reg_price_1,_reg_price_1.text)
 
 
 
                     Price_label:
-                        id: _45_min_price_label
-                        text: "45 min old"
+                        id: _action_price_1_label
+                        text: "Action Price 1"
 
 
                     PriceInput:
-                        id: _45_min_price
-                        hint_text: "insert new 45 min price"
+                        id: _action_price_1
+                        hint_text: "Insert New Action Price 1"
 
 
 
                     User_button_device:
-                        id:_45_min_confim_button
-                        text: "Confirm 45 min"
+                        id:_confim_action_1_button
+                        text: "Confirm Action 1 Price"
                         width: 150
-                        on_release: root.request_new_prices(_45_min_price,_45_min_price.text)
+                        on_release: root.request_new_prices(_action_price_1_,_action_price_1_.text)
 
 
 
 
                     Price_label:
-                        id: _1_h_price_label
-                        text: "1 h old"
+                        id: _action_price_2_label
+                        text: "Action Price 2"
 
 
                     PriceInput:
-                        id: _1_h_price
-                        hint_text: "insert new 1h price"
+                        id: _action_price_2
+                        hint_text: "Insert New Action Price 2"
 
 
 
                     User_button_device:
-                        id:_1_h_confirm_button
-                        text: "Confirm 1 h"
+                        id:_confirm_action_2_button
+                        text: "Confirm Action 2"
                         width: 150
-                        on_release: root.request_new_prices(_1_h_price,_1_h_price.text)
-
-
-
-                    Price_label:
-                        id: _2_h_price_label
-                        text: "2 h old"
-
-
-                    PriceInput:
-                        id: _2_h_price
-                        hint_text: "insert new 2h price"
-
-
-
-                    User_button_device:
-                        id:_2_h_confirm_button
-                        text: "Confirm 2h"
-                        width: 150
-                        on_release: root.request_new_prices(_2_h_price,_2_h_price.text)
-
-
-
-                    Price_label:
-                        id: _24_h_price_label
-                        text: "24h old"
-
-
-                    PriceInput:
-                        id: _24_h_price
-                        hint_text: "insert new 24h price"
-
-
-
-                    User_button_device:
-                        id:_24_h_confirm_button
-                        text: "Confirm 24h"
-                        width: 150
+                        on_release: root.request_new_prices(_action_price_2_, _action_price_2_.text)

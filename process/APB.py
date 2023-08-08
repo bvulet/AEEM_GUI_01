@@ -6,31 +6,24 @@
 
 
 from ManageVideos import ManageVideos
-from UserAccounts import UserAccounts
-from DataHandling import DataHandling
 
+from DeviceRegulation import DeviceRegulation
 
 class Controller():
 
-    def __init__(self, get_os, logger_file, model, view, users,
-                 users_pass, master_user, master_user_pass, user_config_sections,
-                 user_config, device_config):
+    def __init__(self, get_os, logger_file, model, view, active_devices,
+                 currency_set, currency_value, dual_currency, price,
+                 device_config_sections, config_file):
 
         self.model = model
+        self.device_regulation = DeviceRegulation(view, get_os, active_devices, currency_set, currency_value,
+                                                    dual_currency, price, device_config_sections, config_file)
+
+        self.read_device_info = None
         self.logger_file = logger_file
         self.logger = self.model.logger_start
         self.view = view
         self.os_paths = get_os
-        self.users = users
-        self.users_pass = users_pass
-        self.master_user = master_user
-        self.master_user_pass = master_user_pass
-
-        self.user_config = user_config
-        self.device_config = device_config
-        self.user_account = UserAccounts(self.view, self.model, get_os, users, users_pass,
-                                         master_user, master_user_pass, user_config_sections, user_config)
-
         self.manage_videos = ManageVideos(self.view)
 
         self.amount_inserted = None
@@ -52,9 +45,95 @@ class Controller():
         self.video_dir = "video_dir"
         self.linux_rel_video_dir = ""
         self.linux_video_dir = None
+        self.read_device_parameters()
+
+    def read_device_parameters(self):
+        self.read_device_info = self.device_regulation.read_device_status()
+        print(self.read_device_info)
+        self.send_device_to_screen(self.read_device_info)
 
 
 
+    def send_device_to_screen(self, data):
+
+        """ Sending commands from GUI and to GUI about disabling a device
+              also it is used to write that command back to a file and set a
+              device as disabled"""
+
+        if data['all_enable'] != "True":
+
+            self.view.get_screen("developerscreen").inform_disable("all_disabled")
+
+        elif data['all_enable'] == "True":
+            self.view.get_screen("developerscreen").inform_disable("all_enabled")
+
+        elif data['coin_device'] == "True":
+
+            self.view.get_screen("developerscreen").inform_disable("coin_enable")
+
+        elif data['coin_device'] == "False":
+
+            self.view.get_screen("developerscreen").inform_disable("coin_disable")
+
+        elif data['bill_device'] == "True":
+
+            self.view.get_screen("developerscreen").inform_disable("bill_enable")
+
+
+        elif data['bill_device'] == "False":
+
+            self.view.get_screen("developerscreen").inform_disable("coin_disable")
+
+        elif data['hooper_device'] == "True":
+
+            self.view.get_screen("developerscreen").inform_disable("hooper_enable")
+
+
+        elif data['hooper_device'] == "True":
+
+            self.view.get_screen("developerscreen").inform_disable("hooper_disable")
+
+
+        elif data['printer_device'] == "True":
+
+            self.view.get_screen("developerscreen").inform_disable("printer_enable")
+
+
+        elif data['printer_device'] == "False":
+
+            self.view.get_screen("developerscreen").inform_disable("printer_disable")
+
+        elif data['air_pump'] == "True":
+
+            self.view.get_screen("developerscreen").inform_disable("air_enable")
+
+
+        elif data['air_pump'] == "False":
+
+            self.view.get_screen("developerscreen").inform_disable("air_disable")
+
+        elif data['dual_currency_status'] == "True":
+
+            self.view.get_screen("developerscreen").inform_disable("dual_currency_enable")
+
+        elif data['dual_currency_status'] == "False":
+
+            self.view.get_screen("developerscreen").inform_disable("dual_currency_disable")
+
+        elif data['payment_enable'] == "True":
+
+            self.view.get_screen("developerscreen").inform_disable("payment_enable")
+
+        elif data['payment_enable'] == "False":
+
+            self.view.get_screen("developerscreen").inform_disable("payment_disable")
+
+        else:
+            self.view.get_screen("developerscreen").inform_disable("req_error")
+
+
+    def send_payment_currency_to_screen(self, data):
+        pass
 
     def price_set(self, id_sel, value):
         """ Used for price init or price changing directly from GUI
@@ -231,52 +310,8 @@ class Controller():
                                                                self.model.hooper_code)
 
 
-# ovo ce otici odavdje
-    def inform_pass_change(self, state, information):
-        self.view.get_screen("usercontrolscreen").popoutselect(state, information)
-        self.view.get_screen("usercontrolscreen").reset_text_input()
-# ovo ce otici odavdje
-    def change_user_passwords(self, id, password):
 
-        """ function for changing diagnostic or development user screen. Here it looks after type of password
-        it will be able to insert it as a string but also will show an error if it has a lenght less than 4 or
-        just numbers"""
-
-        if len(password) > 4 and any(element.isupper() for element in password):
-            if id == "_old_diag_pass":
-
-                    self.model.diag_pass = password
-                    self.user_accounts()
-                    self.model.write_user_config()
-                    self.inform_pass_change("ok", "Diagnostic Screen")
-
-
-            elif id == "_old_dev_pass":
-
-                    self.model.dev_pass = password
-                    self.user_accounts()
-                    self.model.write_user_config()
-                    self.inform_pass_change("ok", "Developer Screen")
-
-
-            elif id == "_old_video_pass":
-                if len(password) > 4 and any(element.isupper() for element in password):
-                    self.model.video_pass = password
-                    self.user_accounts()
-                    self.model.write_user_config()
-                    self.inform_pass_change("ok", "Video Screen")
-                else:
-                    self.inform_pass_change("req_error", "Video Screen")
-            else:
-                self.inform_pass_change("fat_error", "error")
-        else:
-            self.inform_pass_change("req_error", "Diagnostic Screen")
-
-
-
-
-
-    def check_prices(self):
+    def check_price_options(self):
 
         id_price = list(self.model.price_selected.keys())
         price = list(self.model.price_selected.values())

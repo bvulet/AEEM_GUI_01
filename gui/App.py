@@ -36,7 +36,7 @@ Config.write()
 #  Program parameters
 #------------------------------------
 logger_file_name = "APM_logger.log"
-device_config_file_name = "./user.ini"
+device_config_file_name = "./device_config.ini"
 users_config_file_name = "./user_accounts.ini"
 
 
@@ -44,17 +44,33 @@ users_init = {"diag_user": "diag", "dev_user": "dev",
               "video_user": "video"
               }
 
-users_pass_init = {'diag_user': "1234", 'dev_user': "5678",
-                    "video_user": "1234"
+users_pass_init = {'diag_pass': "1234", 'dev_pass': "5678",
+                    "video_pass": "1234"
                     }
-master_user_init = { 'diag_user': "diagm", 'dev_user': "devm",
-                    'video_user': "videom"
+master_user_init = { 'mdiag_user': "diagm", 'mdev_user': "devm",
+                    'mvideo_user': "videom"
                     }
-master_pass_init = {'diag_user': "8765", 'dev_user': "4321",
-                    'video_user': "9876"
+master_pass_init = {'mdiag_pass': "8765", 'mdev_pass': "4321",
+                    'mvideo_pass': "9876"
                     }
 
 user_config_sections = ["master_user", "master_passwords", "users", "passwords"]
+
+
+
+device_config_sections = ['active_devices', "currency_set", "currency_value",
+                          'dual_currency', "price"
+                        ]
+active_devices = {"all_enable": "True", "coin_device": "True", "bill_device":"False", "printer_device": "False",
+                  "hooper_device": "False", "video_commercial": "True", "air_pump": "True"}
+
+currency_set = {"BAM": "KM", "Eur": "Euro"}
+currency_value = {"KM": "1", "Euro": "1.95"}
+dual_currency = {"dual_currency_status": "False"}
+
+price = {"payment_enable": "True", "reg_1": "1", "reg_2": "2",
+         "action_price_1": "1", "action_price_2": "1"}
+
 
 class AeemScreenApp(App, Screen):
     def __init__(self, **kwargs):
@@ -64,12 +80,14 @@ class AeemScreenApp(App, Screen):
         get_os = GetOsPaths()
         model = AutomatedParkingManagement()
         view = ScreenManagement(Window)
-        controller = Controller(get_os, logger_file_name, model, view,
-                                users_init, users_pass_init, master_user_init,
-                                master_pass_init, user_config_sections, users_config_file_name,
+        controller = Controller(get_os, logger_file_name, model, view, active_devices,
+                                currency_set, currency_value, dual_currency, price, device_config_sections,
                                 device_config_file_name)
+
+        user_accounts = UserAccounts(view, get_os, users_init, users_pass_init,master_user_init,
+                                     master_pass_init, user_config_sections, users_config_file_name)
         model.set_controller(controller)
-        view.set_controller(controller)
+        view.set_controller(controller, user_accounts)
 
         cctalk = Serial_comm(model)
         model.set_communication(cctalk)

@@ -2,37 +2,36 @@
 #korisnika
 
 from DataHandling import DataHandling
-class UserAccounts:
+
+class DeviceRegulation:
 
 
     def __init__(self, view, get_os,
-                 users, user_pass, master_user,
-                 master_user_pass, user_config_sections,
+                 active_devices, currency_set, currency_value,
+                 dual_currency, price, device_config_sections,
                  config_file):
 
-        self.read_user_data = None
-        self.users = users
-        self.user_pass = user_pass
-        self.master_user = master_user
-        self.master_user_pass = master_user_pass
-        self.user_config_sect = user_config_sections
-
+        self.read_device_data = None
+        self.active_devices = active_devices
+        self.currency_set = currency_set
+        self.currency_value = currency_value
+        self.dual_currency = dual_currency
+        self.device_config_sections = device_config_sections
+        self.price = price
         self.configuration = DataHandling(get_os, config_file)
         self.view = view
 
 
-        self.read_users()
 
-
-    def change_user_passwords(self, id, password):
-        """ function for changing diagnostic or development user screen. Here it looks after type of password
-        it will be able to insert it as a string but also will show an error if it has a lenght less than 4 or
-        just numbers"""
-        if len(password) > 4 and any(element.isupper() for element in password):
+    def change_values(self, id, data):
+        """ function for changing data regarding device configuration
+        it includes change of currency, change of prices or change of showing dual prices for
+        future services. Also, user can disable or enable any of devices peripheral or not regarding current status"""
+        if len(data) > 4 and any(element.isupper() for element in data):
 
             if id == "_old_diag_pass":
 
-                data = {"diag_pass": password}
+                data = {"diag_pass": data}
                 self.configuration.write_config("passwords", data)
                 status = self.configuration.save_write_config()
                 if status:
@@ -43,7 +42,7 @@ class UserAccounts:
 
             elif id == "_old_dev_pass":
 
-                data = {"dev_pass": password}
+                data = {"dev_pass": data}
                 self.configuration.write_config("passwords", data)
                 status = self.configuration.save_write_config()
                 if status:
@@ -55,9 +54,9 @@ class UserAccounts:
 
             elif id == "_old_video_pass":
 
-                data = {"video_pass": password}
+                data = {"video_pass": data}
 
-                data = {"dev_pass": password}
+                data = {"dev_pass": data}
                 self.configuration.write_config("passwords", data)
                 status = self.configuration.save_write_config()
                 if status:
@@ -73,36 +72,36 @@ class UserAccounts:
             self.inform_pass_change("Pass Rule Error", "Diagnostic Screen")
 
 
+    def read_device_status(self):
+        self.read_device_data = self.configuration.read_config()
 
-
-
-    def read_users(self):
-        self.read_user_data = self.configuration.read_config()
-        if self.read_user_data == False:
-            create_config = self.configuration.create_config_file(self.user_config_sect)
+        if self.read_device_data == False:
+            create_config = self.configuration.create_config_file(self.device_config_sections)
             if create_config:
-                self.configuration.write_config("master_user", self.master_user)
-                self.configuration.write_config("master_passwords", self.master_user_pass)
-                self.configuration.write_config("users", self.users)
-                self.configuration.write_config("passwords", self.user_pass)
+                self.configuration.write_config("active_devices", self.active_devices)
+                self.configuration.write_config("currency_set", self.currency_set)
+                self.configuration.write_config("currency_value", self.currency_value)
+                self.configuration.write_config("dual_currency", self.dual_currency)
+                self.configuration.write_config("price", self.price)
                 status = self.configuration.save_write_config()
                 if status:
-                    self.read_user_data = self.configuration.read_config()
+                    self.read_device_data = self.configuration.read_config()
                 else:
-                    raise Exception("Cannot write to user accounts ini")
+                    raise Exception("Cannot write to device ini")
 
             else:
-                raise Exception("Cannot work with user accounts ini")
+                raise Exception("Cannot work with device ini")
 
+        return self.read_device_data
         # ovdje ce ici backup ako ne bude ovo uzmi sql
-        self.set_account_info()
+        #self.set_account_info()
 
 
 
 
 
 
-    def set_account_info(self):
+    def set_device_status(self):
 
         self.view.get_screen("loginscreen").account_setup(self.read_user_data['dev_user'],
                                                           self.read_user_data['dev_pass'],
@@ -121,7 +120,7 @@ class UserAccounts:
 
 
 
-    def inform_pass_change(self, state, information):
+    def inform_change(self, state, information):
         self.view.get_screen("usercontrolscreen").popoutselect(state, information)
         self.view.get_screen("usercontrolscreen").reset_text_input()
 

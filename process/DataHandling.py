@@ -53,9 +53,12 @@ class DataHandling:
 
 
     def save_write_config(self):
-        with open(self.config_file_name, 'w') as f:
-            self.config.write(f)
-
+        try:
+            with open(self.config_file_name, 'w') as f:
+                self.config.write(f)
+            return True
+        except FileNotFoundError:
+            return False
 
     def create_config_file(self, sections):
 

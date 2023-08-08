@@ -22,7 +22,7 @@ class UsercontrolScreen(Screen, On_Screen_Keyboard):
         index = list(self.ids.values()).index(id_sel)
         widget_ids = list(self.ids.keys())
         local_id = widget_ids[index]
-        self.manager.controller.change_user_passwords(local_id, password)
+        self.manager.user_accounts.change_user_passwords(local_id, password)
 
     def reset_text_input(self):
 

@@ -33,13 +33,14 @@ class ScreenManagement(ScreenManager,Screen):
         self.window = Window
         Clock.schedule_interval(self.update_time,0)
         self.controller = None
+        self.user_accounts = None
         self.cyclic_update = None
         self.splash_screen()
 
 
 
-    def set_controller(self,controller):
-
+    def set_controller(self,controller, user_accounts):
+        self.user_accounts = user_accounts
         self.controller = controller
         self.cyclic_update= Clock.schedule_interval(self.cyclic_update_amount, .5)
 

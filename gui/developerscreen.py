@@ -25,11 +25,18 @@ class DeveloperScreen(Screen):
         self.popout_dismiss_time = 6
 
     def on_pre_enter(self, *args):
-        self.request_old_prices()
+        self.manager.controller.read_device_parameters()
+        self.manager.controller.check_price_options()
 
-    def request_old_prices(self):
 
-        self.manager.controller.check_prices()
+    # def request_old_prices(self):
+    #     self.manager.controller.read_device_parameters()
+
+
+
+
+
+    #     self.manager.controller.check_prices()
 
     def show_old_prices(self, id, value, currency):
 
