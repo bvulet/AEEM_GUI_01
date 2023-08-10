@@ -51,6 +51,7 @@ class Controller():
         self.read_device_info = self.device_regulation.read_device_status()
         print(self.read_device_info)
         self.send_device_to_screen(self.read_device_info)
+        self.send_payment_data_to_screen(self.read_device_info)
 
 
 
@@ -62,78 +63,81 @@ class Controller():
 
         if data['all_enable'] != "True":
 
-            self.view.get_screen("developerscreen").inform_disable("all_disabled")
+            self.view.get_screen("developerscreen").inform_screen("all_disabled")
 
         elif data['all_enable'] == "True":
-            self.view.get_screen("developerscreen").inform_disable("all_enabled")
+            self.view.get_screen("developerscreen").inform_screen("all_enabled")
 
         elif data['coin_device'] == "True":
 
-            self.view.get_screen("developerscreen").inform_disable("coin_enable")
+            self.view.get_screen("developerscreen").inform_screen("coin_enable")
 
         elif data['coin_device'] == "False":
 
-            self.view.get_screen("developerscreen").inform_disable("coin_disable")
+            self.view.get_screen("developerscreen").inform_screen("coin_disable")
 
         elif data['bill_device'] == "True":
 
-            self.view.get_screen("developerscreen").inform_disable("bill_enable")
+            self.view.get_screen("developerscreen").inform_screen("bill_enable")
 
 
         elif data['bill_device'] == "False":
 
-            self.view.get_screen("developerscreen").inform_disable("coin_disable")
+            self.view.get_screen("developerscreen").inform_screen("coin_disable")
 
         elif data['hooper_device'] == "True":
 
-            self.view.get_screen("developerscreen").inform_disable("hooper_enable")
+            self.view.get_screen("developerscreen").inform_screen("hooper_enable")
 
 
         elif data['hooper_device'] == "True":
 
-            self.view.get_screen("developerscreen").inform_disable("hooper_disable")
+            self.view.get_screen("developerscreen").inform_screen("hooper_disable")
 
 
         elif data['printer_device'] == "True":
 
-            self.view.get_screen("developerscreen").inform_disable("printer_enable")
+            self.view.get_screen("developerscreen").inform_screen("printer_enable")
 
 
         elif data['printer_device'] == "False":
 
-            self.view.get_screen("developerscreen").inform_disable("printer_disable")
+            self.view.get_screen("developerscreen").inform_screen("printer_disable")
 
         elif data['air_pump'] == "True":
 
-            self.view.get_screen("developerscreen").inform_disable("air_enable")
+            self.view.get_screen("developerscreen").inform_screen("air_enable")
 
 
         elif data['air_pump'] == "False":
 
-            self.view.get_screen("developerscreen").inform_disable("air_disable")
+            self.view.get_screen("developerscreen").inform_screen("air_disable")
 
-        elif data['dual_currency_status'] == "True":
+        else:
+            self.view.get_screen("developerscreen").inform_screen("req_error")
 
-            self.view.get_screen("developerscreen").inform_disable("dual_currency_enable")
+    def send_payment_data_to_screen(self, data):
+
+        if data['dual_currency_status'] == "True":
+
+            self.view.get_screen("paymentcontrolscreen").inform_screen("dual_currency_enable")
 
         elif data['dual_currency_status'] == "False":
 
-            self.view.get_screen("developerscreen").inform_disable("dual_currency_disable")
+            self.view.get_screen("paymentcontrolscreen").inform_screen("dual_currency_disable")
 
         elif data['payment_enable'] == "True":
 
-            self.view.get_screen("developerscreen").inform_disable("payment_enable")
+            self.view.get_screen("paymentcontrolscreen").inform_screen("payment_enable")
 
         elif data['payment_enable'] == "False":
 
-            self.view.get_screen("developerscreen").inform_disable("payment_disable")
+            self.view.get_screen("paymentcontrolscreen").inform_screen("payment_disable")
 
         else:
-            self.view.get_screen("developerscreen").inform_disable("req_error")
+            self.view.get_screen("paymentcontrolscreen").inform_screen("req_error")
 
 
-    def send_payment_currency_to_screen(self, data):
-        pass
 
     def price_set(self, id_sel, value):
         """ Used for price init or price changing directly from GUI

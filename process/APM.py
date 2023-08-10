@@ -353,7 +353,8 @@ class AutomatedParkingManagement:
         # posalji u screen da je disable i da njega ne provjerava !!!
 
     def coin_inform_device(self):
-        self.controller.inform_first_start_device_check()
+        #self.controller.inform_first_start_device_check()
+        pass
 
     def send_to_log(self, event):
         self.logger_start.info(event)

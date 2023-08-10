@@ -1,5 +1,5 @@
 # -------------------------------
-# File name developerscreen.py
+# File name paymentcontrolscreen.py
 # ------------------------------
 
 from kivy.uix.screenmanager import Screen
@@ -12,11 +12,11 @@ from kivy.uix.label import Label
 from kivy.uix.boxlayout import BoxLayout
 
 
-class DeveloperScreen(Screen):
+class PaymentControlScreen(Screen):
 
     def __init__(self, **kwargs):
 
-        super(DeveloperScreen, self).__init__(name='developerscreen')
+        super(PaymentControlScreen, self).__init__(name='paymentcontrolscreen')
         self.disable_req = None
         self.image_ok = "images/green_ok.png"
         self.image_not_ok = "images/red_not_ok.png"
@@ -25,7 +25,7 @@ class DeveloperScreen(Screen):
         self.popout_dismiss_time = 6
 
     def on_pre_enter(self, *args):
-        self.manager.controller.read_device_parameters()
+        self.manager.controller.read_payment_parameters()
 #        self.manager.controller.check_price_options()
 
 
@@ -71,92 +71,13 @@ class DeveloperScreen(Screen):
 
     def inform_screen(self, req_type):
 
-        if req_type == "all_disabled":
-            self.ids._all_device_disabled_light.source = self.image_not_ok
-            self.ids._all_device_disable_button.background_color = self.button_color_red
-            self.ids._coin_device_light.source = self.image_not_ok
-            self.ids._coin_device_button.background_color = self.button_color_red
-            self.ids._bill_device_light.source = self.image_not_ok
-            self.ids._bill_device_button.background_color = self.button_color_red
-            self.ids._hooper_device_light.source = self.image_not_ok
-            self.ids._hooper_device_button.background_color = self.button_color_red
-            self.ids._dual_currency_light.source = self.image_not_ok
-            self.ids._dual_currency_button.background_color = self.button_color_red
-            self.ids._printer_device_light.source = self.image_not_ok
-            self.ids._printer_device_button.background_color = self.button_color_red
-            self.ids._printer_device_light.source = self.image_not_ok
-            self.ids._printer_device_button.background_color = self.button_color_red
-            self.ids._air_pump_device_light.source = self.image_not_ok
-            self.ids._air_pump_device_button.background_color = self.button_color_red
-            self.ids._payment_light.source = self.image_not_ok
-            self.ids._payment_button.background_color = self.button_color_red
-
-        elif req_type == "all_enabled":
-            self.ids._all_device_disabled_light.source = self.image_ok
-            self.ids._all_device_disable_button.background_color = self.button_color_gray
-            self.ids._coin_device_light.source = self.image_ok
-            self.ids._coin_device_button.background_color = self.button_color_gray
-            self.ids._bill_device_light.source = self.image_ok
-            self.ids._bill_device_button.background_color = self.button_color_gray
-            self.ids._hooper_device_light.source = self.image_ok
-            self.ids._hooper_device_button.background_color = self.button_color_gray
-            self.ids._printer_device_light.source = self.image_ok
-            self.ids._printer_device_button.background_color = self.button_color_gray
-            self.ids._air_pump_device_light.source = self.image_ok
-            self.ids._air_pump_device_button.background_color = self.button_color_gray
-            self.ids._payment_light.source = self.image_ok
-            self.ids._payment_button.background_color = self.button_color_red
-
-
-
-        elif req_type == "coin_disable":
-            self.ids._coin_device_light.source = self.image_not_ok
-            self.ids._coin_device_button.background_color = self.button_color_red
-
-        elif req_type == "coin_enable":
-            self.ids._coin_device_light.source = self.image_ok
-            self.ids._coin_device_button.background_color = self.button_color_gray
-
-        elif req_type == "bill_enable":
-            self.ids._bill_device_light.source = self.image_ok
-            self.ids._bill_device_button.background_color = self.button_color_gray
-
-        elif req_type == "bill_disable":
-            self.ids._bill_device_light.source = self.image_not_ok
-            self.ids._bill_device_button.background_color = self.button_color_red
-
-        elif req_type == "hooper_enable":
-            self.ids._hooper_device_light.source = self.image_ok
-            self.ids._hooper_device_button.background_color = self.button_color_gray
-
-        elif req_type == "hooper_disable":
-            self.ids._hooper_device_light.source = self.image_not_ok
-            self.ids._hooper_device_button.background_color = self.button_color_red
-
-        elif req_type == "dual_currency_enable":
+        if req_type == "dual_currency_enable":
             self.ids._dual_currency_light.source = self.image_ok
             self.ids._dual_currency_button.background_color = self.button_color_gray
 
         elif req_type == "dual_currency_disable":
             self.ids._dual_currency_light.source = self.image_not_ok
             self.ids._dual_currency_button.background_color = self.button_color_red
-
-        elif req_type == "printer_enable":
-            self.ids._printer_device_light.source = self.image_ok
-            self.ids._printer_device_button.background_color = self.button_color_gray
-
-        elif req_type == "printer_disable":
-            self.ids._printer_device_light.source = self.image_not_ok
-            self.ids._printer_device_button.background_color = self.button_color_red
-
-        elif req_type == "air_enable":
-            self.ids._air_pump_device_light.source = self.image_ok
-            self.ids._air_pump_device_button.background_color = self.button_color_gray
-
-        elif req_type == "air_disable":
-            self.ids._air_pump_device_light.source = self.image_not_ok
-            self.ids._air_pump_device_button.background_color = self.button_color_red
-
 
         elif req_type == "payment_enable":
             self.ids._payment_light.source = self.image_ok

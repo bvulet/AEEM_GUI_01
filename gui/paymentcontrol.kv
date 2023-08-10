@@ -1,5 +1,5 @@
 # file name: developerscreen.kv
-#:import developerscreen developerscreen
+#:import paymentcontrolscreen paymentcontrolscreen
 
 
 <User_button_device@Button>:
@@ -56,7 +56,7 @@
             padding:[0,0,0,0]
             Label:
                 id: _screen
-                text: "Postavke uređaja"
+                text: "Postavke Cijena"
                 color: 0,0,0,1
                 size_hint: None, None
                 font_size:'30'
@@ -108,70 +108,26 @@
                 row_force_default: True
                 size_hint:None,None
 
-                Status_light:
-                    id: _all_device_disabled_light
-                    source: 'images/green_ok.png'
-
-                User_button_device:
-                    id:_all_device_disable_button
-                    text: "Disable All"
-                    on_press:
-                        root.disable_devices("all")
-
 
                 Status_light:
-                    id: _coin_device_light
+                    id: _dual_currency_light
                     source: 'images/green_ok.png'
-
                 User_button_device:
-                    id:_coin_device_button
-                    text: "Disable Coin"
-                    on_press:
-                        root.disable_devices("coin")
 
-                Status_light:
-                    id: _bill_device_light
-                    source: 'images/green_ok.png'
-
-                User_button_device:
-                    id:_bill_device_button
-                    text: "Disable Bill"
+                    id:_dual_currency_button
+                    text: "Disable Dual Currency"
                     on_press:
-                        root.disable_devices("bill")
+                        root.disable_devices("dual_currency")
 
 
                 Status_light:
-                    id: _hooper_device_light
+                    id: _payment_light
                     source: 'images/green_ok.png'
-
                 User_button_device:
-                    id:_hooper_device_button
-                    text: "Disable Hooper"
+                    id:_payment_button
+                    text: "Disable Payment"
                     on_press:
-                        root.disable_devices("hooper")
-
-
-                Status_light:
-                    id: _printer_device_light
-                    source: 'images/green_ok.png'
-
-                User_button_device:
-                    id:_printer_device_button
-                    text: "Disable Printer"
-                    on_press:
-                        root.disable_devices("printer")
-
-
-                Status_light:
-                    id: _air_pump_device_light
-                    source: 'images/green_ok.png'
-
-                User_button_device:
-                    id:_air_pump_device_button
-                    text: "Disable Air Pump"
-                    on_press:
-                        root.disable_devices("air_pump")
-
+                        root.disable_devices("payment")
 
 
 
