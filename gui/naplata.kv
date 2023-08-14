@@ -9,11 +9,38 @@
     size_hint: None, None
     size: 450, 250
     BoxLayout:
-        Label:
-            text: """Imate Poteskoca, Molimo kontaktirajte \n xxxxxxxxxxx\nNivu """
-            font_size: 20
-            color: 1 ,1 ,1 ,1
 
+        GridLayout:
+            rows:4
+            cols:1
+            spacing_vertical:20
+            spacing_horizontal:1
+            row_default_height: 40
+            row_force_default: True
+
+            Label:
+                id: _box_pop_label
+                text: """Imate Poteskoca, Molimo kontaktirajte nas:"""
+                font_size: 20
+                color: 1 ,1 ,1 ,1
+            Label:
+                id: _company_label
+                text: """ """
+                font_size: 20
+                halign:'left'
+                color: 1 ,1 ,1 ,1
+            Label:
+                id: _phone_label
+                text: """ \n"""
+                halign:'left'
+                font_size: 20
+                color: 1 ,1 ,1 ,1
+            Label:
+                id: _mail_label
+                text: """ \n"""
+                halign:'left'
+                font_size: 20
+                color: 1 ,1 ,1 ,1
 
 
 
@@ -26,7 +53,8 @@
     name: 'naplatascreen'
 
     on_pre_enter:
-        min_15.state = 'normal'
+        charging.state = 'normal'
+        air_pump.state = 'normal'
 
     BackgroundScreen:
         id: _backgroundscreen
@@ -65,9 +93,14 @@
             row_force_default: True
             col_force_default:True
             Timetoggle1:
-                id: min_15
-                text: '15 min'
-                on_state: root.time_select_deselect(*args, 'min_15')
+                id: charging
+                text: 'Punjenje'
+                on_state: root.time_select_deselect(*args, 'charging')
+
+            Timetoggle1:
+                id: air_pump
+                text: 'Zrak'
+                on_state: root.time_select_deselect(*args, 'air_pump')
 
     AnchorLayout:
         anchor_x:"center"
@@ -75,7 +108,7 @@
         padding:[0,0,0,0]
 
         GridLayout:
-            rows:1
+            rows:2
             cols:2
             size_hint:None,None
 
@@ -91,6 +124,18 @@
             Label:
                 id: _amount_insert
                 text: "Uplaćeno"
+                color: 1,1,1,1
+                font_size:'20'
+
+            Label:
+                id: _time_description
+                text: "Vrijeme"
+                color: 1,1,1,1
+                font_size:'20'
+
+            Label:
+                id: _time_available
+                text: "Dostupno"
                 color: 1,1,1,1
                 font_size:'20'
 
@@ -110,7 +155,7 @@
         size_hint:.1,.1
         background_color: 0,0,0,0
         pos_hint: {'right':.95,'top':.3}
-        on_press: Factory.Dompopup().open()
+        on_press: root.show_info_popup()
         Image:
             id: _warning_img
             source: 'images/warning.png'
@@ -119,3 +164,6 @@
             keep_ratio: False
             center_x: self.parent.center_x
             center_y: self.parent.center_y
+
+
+#Factory.Dompopup().open()

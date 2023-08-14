@@ -29,45 +29,10 @@ class DeveloperScreen(Screen):
 #        self.manager.controller.check_price_options()
 
 
-    # def request_old_prices(self):
-    #     self.manager.controller.read_device_parameters()
-
-
-
-
-
-    #     self.manager.controller.check_prices()
-
-    def show_old_prices(self, id, value, currency):
-
-        blank = " "
-        self.ids._15_min_price_label.text = str(value[0]) + blank + currency
-        self.ids._30_min_price_label.text = str(value[1]) + blank + currency
-        self.ids._45_min_price_label.text = str(value[2]) + blank + currency
-        self.ids._1_h_price_label.text = str(value[3]) + blank + currency
-        self.ids._2_h_price_label.text = str(value[4]) + blank + currency
-        self.ids._24_h_price_label.text = str(value[5]) + blank + currency
-
-    def request_new_prices(self, id, value):
-        constant = 0.5
-        index = list(self.ids.values()).index(id)
-        widget_ids = list(self.ids.keys())
-        local_id = widget_ids[index]
-
-        if value == "" or "insert" in value:
-            self.popoutselect('empty', local_id)
-            pass
-        elif float(value) % constant:
-            self.popoutselect('price_error', local_id)
-
-        else:
-            price = float(value)
-            self.manager.controller.price_set(local_id, price)
-
-    def disable_devices(self, device):
+    def control_device(self, device):
 
         self.disable_req = device
-        self.manager.controller.device_check(device)
+        self.manager.controller.device_control(device)
 
     def inform_screen(self, req_type):
 
@@ -104,8 +69,6 @@ class DeveloperScreen(Screen):
             self.ids._printer_device_button.background_color = self.button_color_gray
             self.ids._air_pump_device_light.source = self.image_ok
             self.ids._air_pump_device_button.background_color = self.button_color_gray
-            self.ids._payment_light.source = self.image_ok
-            self.ids._payment_button.background_color = self.button_color_red
 
 
 
@@ -133,13 +96,13 @@ class DeveloperScreen(Screen):
             self.ids._hooper_device_light.source = self.image_not_ok
             self.ids._hooper_device_button.background_color = self.button_color_red
 
-        elif req_type == "dual_currency_enable":
-            self.ids._dual_currency_light.source = self.image_ok
-            self.ids._dual_currency_button.background_color = self.button_color_gray
-
-        elif req_type == "dual_currency_disable":
-            self.ids._dual_currency_light.source = self.image_not_ok
-            self.ids._dual_currency_button.background_color = self.button_color_red
+        # elif req_type == "dual_currency_enable":
+        #     self.ids._dual_currency_light.source = self.image_ok
+        #     self.ids._dual_currency_button.background_color = self.button_color_gray
+        #
+        # elif req_type == "dual_currency_disable":
+        #     self.ids._dual_currency_light.source = self.image_not_ok
+        #     self.ids._dual_currency_button.background_color = self.button_color_red
 
         elif req_type == "printer_enable":
             self.ids._printer_device_light.source = self.image_ok
@@ -158,14 +121,14 @@ class DeveloperScreen(Screen):
             self.ids._air_pump_device_button.background_color = self.button_color_red
 
 
-        elif req_type == "payment_enable":
-            self.ids._payment_light.source = self.image_ok
-            self.ids._payment_button.background_color = self.button_color_red
-
-
-        elif req_type == "payment_disable":
-            self.ids._payment_light.source = self.image_not_ok
-            self.ids._payment_button.background_color = self.button_color_red
+        # elif req_type == "payment_enable":
+        #     self.ids._payment_light.source = self.image_ok
+        #     self.ids._payment_button.background_color = self.button_color_red
+        #
+        #
+        # elif req_type == "payment_disable":
+        #     self.ids._payment_light.source = self.image_not_ok
+        #     self.ids._payment_button.background_color = self.button_color_red
 
 
         elif req_type == "req_error":

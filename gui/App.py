@@ -38,7 +38,7 @@ Config.write()
 logger_file_name = "APM_logger.log"
 device_config_file_name = "./device_config.ini"
 users_config_file_name = "./user_accounts.ini"
-
+owner_config_file_name = "./owner_informations.ini"
 
 users_init = {"diag_user": "diag", "dev_user": "dev",
               "video_user": "video"
@@ -68,9 +68,12 @@ currency_set = {"BAM": "KM", "Eur": "Euro"}
 currency_value = {"KM": "1", "Euro": "1.95"}
 dual_currency = {"dual_currency_status": "False"}
 
-price = {"payment_enable": "True", "reg_1": "1", "reg_2": "2",
+price = {"payment_enable": "True", "action_price_1_active": "False", "action_price_2_active": "False",
+         "reg_1": "1", "reg_2": "2",
          "action_price_1": "1", "action_price_2": "1"}
 
+owner_config_sections = ['owner_informations']
+owner_details = {'name': "MyCompany", "phone": "+387544", "mail": "my@mail"}
 
 class AeemScreenApp(App, Screen):
     def __init__(self, **kwargs):
@@ -82,7 +85,7 @@ class AeemScreenApp(App, Screen):
         view = ScreenManagement(Window)
         controller = Controller(get_os, logger_file_name, model, view, active_devices,
                                 currency_set, currency_value, dual_currency, price, device_config_sections,
-                                device_config_file_name)
+                                device_config_file_name, owner_details, owner_config_sections, owner_config_file_name)
 
         user_accounts = UserAccounts(view, get_os, users_init, users_pass_init,master_user_init,
                                      master_pass_init, user_config_sections, users_config_file_name)

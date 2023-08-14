@@ -23,6 +23,7 @@ Builder.load_file('gui/loginscreen.kv')
 Builder.load_file('gui/initscreen.kv')
 Builder.load_file('gui/developerscreen.kv')
 Builder.load_file('gui/usercontrolscreen.kv')
+Builder.load_file('gui/paymentcontrolscreen.kv')
 Builder.load_file('gui/videoscreen.kv')
 Builder.load_file('gui/videocontrolscreen.kv')
 class ScreenManagement(ScreenManager,Screen):
@@ -66,6 +67,7 @@ class ScreenManagement(ScreenManager,Screen):
         self.get_screen("diagnosticscreen").ids._backgroundscreen.time.text = strftime('%m/%d/%Y, %H : %M : %S')
         self.get_screen("loginscreen").ids._backgroundscreen.time.text = strftime('%m/%d/%Y, %H : %M : %S')
         self.get_screen("developerscreen").ids._backgroundscreen.time.text = strftime('%m/%d/%Y, %H : %M : %S')
+        self.get_screen("paymentcontrolscreen").ids._backgroundscreen.time.text = strftime('%m/%d/%Y, %H : %M : %S')
         self.get_screen("usercontrolscreen").ids._backgroundscreen.time.text = strftime('%m/%d/%Y, %H : %M : %S')
 
 

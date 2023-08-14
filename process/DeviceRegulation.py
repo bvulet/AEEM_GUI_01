@@ -23,53 +23,19 @@ class DeviceRegulation:
 
 
 
-    def change_values(self, id, data):
+    def change_values(self, data_name):
         """ function for changing data regarding device configuration
-        it includes change of currency, change of prices or change of showing dual prices for
-        future services. Also, user can disable or enable any of devices peripheral or not regarding current status"""
-        if len(data) > 4 and any(element.isupper() for element in data):
+        it includes change of device perihperals - enable or disable.
+         Also, user can disable or enable any of devices peripheral or not regarding current status"""
+        if  self.read_device_data[data_name] == "True":
+            self.read_device_data[data_name] = "False"
+            return self.read_device_data
 
-            if id == "_old_diag_pass":
-
-                data = {"diag_pass": data}
-                self.configuration.write_config("passwords", data)
-                status = self.configuration.save_write_config()
-                if status:
-                    self.inform_pass_change("ok", "Diagnostic Screen")
-                    self.read_users()
-                else:
-                    self.inform_pass_change("error", "Diagnostic Screen")
-
-            elif id == "_old_dev_pass":
-
-                data = {"dev_pass": data}
-                self.configuration.write_config("passwords", data)
-                status = self.configuration.save_write_config()
-                if status:
-                    self.inform_pass_change("ok", "Developer Screen")
-                    self.read_users()
-
-                else:
-                    self.inform_pass_change("error", "Developer Screen")
-
-            elif id == "_old_video_pass":
-
-                data = {"video_pass": data}
-
-                data = {"dev_pass": data}
-                self.configuration.write_config("passwords", data)
-                status = self.configuration.save_write_config()
-                if status:
-                    self.inform_pass_change("ok", "Video Screen")
-                    self.read_users()
-
-                else:
-                    self.inform_pass_change("error", "Video Screen")
-
-            else:
-                self.inform_pass_change("No ID", "error")
         else:
-            self.inform_pass_change("Pass Rule Error", "Diagnostic Screen")
+            self.read_device_data[data_name] = "True"
+            return self.read_device_data
+
+
 
 
     def read_device_status(self):
@@ -100,29 +66,13 @@ class DeviceRegulation:
 
 
 
+    def save_device_parameters(self):
+        status = self.configuration.save_write_config()
+        if status:
+            self.read_device_data = self.configuration.read_config()
+        else:
+            raise Exception("Cannot write to device ini")
 
-    def set_device_status(self):
-
-        self.view.get_screen("loginscreen").account_setup(self.read_user_data['dev_user'],
-                                                          self.read_user_data['dev_pass'],
-                                                          self.read_user_data['diag_user'],
-                                                          self.read_user_data['diag_pass'],
-                                                          self.read_user_data['video_user'],
-                                                          self.read_user_data['video_pass'])
-
-        self.view.get_screen("loginscreen").master_account_setup(self.read_user_data['mdev_user'],
-                                                                 self.read_user_data['mdev_pass'],
-                                                                 self.read_user_data['mdiag_user'],
-                                                                 self.read_user_data['mdiag_pass'],
-                                                                 self.read_user_data['mvideo_user'],
-                                                                 self.read_user_data['mvideo_pass'])
-
-
-
-
-    def inform_change(self, state, information):
-        self.view.get_screen("usercontrolscreen").popoutselect(state, information)
-        self.view.get_screen("usercontrolscreen").reset_text_input()
 
 
 

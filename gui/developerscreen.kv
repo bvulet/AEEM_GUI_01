@@ -5,46 +5,24 @@
 <User_button_device@Button>:
 
     size_hint_x:None
-    width:200
-    font_size: 18
+    size_hint_y: None
+    width:50
+    height: 50
+    font_size: 16
 
 <Status_light@Image>:
 
     size_hint_x: None
-    width:50
+    width:20
     allow_stretch: False
     keep_ratio: False
 
-<Price_label@Label>:
 
-    size_hint_x:None
-    size: self.texture_size
-    halign: 'left'
-    valign:'middle'
-
-
-<PriceInput@TextInput>:
-
-    background_color: [0.0,0.0,0.0,0.4]
-    size_hint_x: None
-    width: 150
-    max_lines: 1
-    valign: 'middle'
-    halign: 'center'
-    font_size: 15
-    multiline: False
-    is_focusable: True
 
 <DeveloperScreen>:
 
     name: 'developerscreen'
     id : _developerscreen
-    on_pre_enter:
-        _reg_price_1.text = ''
-        _reg_price_2.text = ''
-        _action_price_1.text = ''
-        _action_price_2.text = ''
-       # root.request_old_prices()
 
     FloatLayout:
         BackgroundScreen:
@@ -88,7 +66,7 @@
                 size_hint: .15,.15
                 background_color: (0,0,0,0)
                 background_normal:''
-                on_press: root.manager.current = 'usercontrolscreen'
+                on_press: root.manager.current = 'paymentcontrolscreen'
                 Image:
                     source:"images/forward_button.png"
                     center_x: self.parent.center_x
@@ -104,7 +82,7 @@
                 rows:6
                 cols:2
                 spacing:20,20
-                row_default_height: 50
+                row_default_height: 35
                 row_force_default: True
                 size_hint:None,None
 
@@ -116,7 +94,7 @@
                     id:_all_device_disable_button
                     text: "Disable All"
                     on_press:
-                        root.disable_devices("all")
+                        root.control_device("all")
 
 
                 Status_light:
@@ -127,7 +105,7 @@
                     id:_coin_device_button
                     text: "Disable Coin"
                     on_press:
-                        root.disable_devices("coin")
+                        root.control_device("coin")
 
                 Status_light:
                     id: _bill_device_light
@@ -137,8 +115,19 @@
                     id:_bill_device_button
                     text: "Disable Bill"
                     on_press:
-                        root.disable_devices("bill")
+                        root.control_device("bill")
 
+        AnchorLayout:
+            anchor_x:"left"
+            anchor_y: "center"
+            padding:[0,0,0,160]
+            GridLayout:
+                rows:6
+                cols:2
+                spacing:20,20
+                row_default_height: 35
+                row_force_default: True
+                size_hint:None,None
 
                 Status_light:
                     id: _hooper_device_light
@@ -148,7 +137,7 @@
                     id:_hooper_device_button
                     text: "Disable Hooper"
                     on_press:
-                        root.disable_devices("hooper")
+                        root.control_device("hooper")
 
 
                 Status_light:
@@ -159,7 +148,7 @@
                     id:_printer_device_button
                     text: "Disable Printer"
                     on_press:
-                        root.disable_devices("printer")
+                        root.control_device("printer")
 
 
                 Status_light:
@@ -170,108 +159,7 @@
                     id:_air_pump_device_button
                     text: "Disable Air Pump"
                     on_press:
-                        root.disable_devices("air_pump")
+                        root.control_device("air_pump")
 
 
 
-
-            AnchorLayout:
-
-                anchor_x:"left"
-                anchor_y: "center"
-                padding:[200,0,0,350]
-                Label:
-                    id: _price_info
-                    text: "Promijenite cijenu"
-                    color: 1,1,1,1
-                    size_hint: None, None
-                    font_size:'20'
-
-            AnchorLayout:
-                anchor_x:"left"
-                anchor_y:"center"
-                padding:[30,0,0,200]
-                GridLayout:
-                    rows:6
-                    cols:3
-                    spacing:10,10
-                    row_default_height: 35
-                    row_force_default: True
-                    size_hint:None,None
-
-
-                    Price_label:
-                        id: _reg_price_1_label
-                        text: "regular price 1"
-
-
-                    PriceInput:
-                        id: _reg_price_1
-                        hint_text: "insert new price 1"
-                        input_type: 'number'
-
-
-                    User_button_device:
-                        id:_confirm_1_button
-                        text: "Confirm 1 Price"
-                        width: 150
-                        on_release: root.request_new_prices(_reg_price_1,_reg_price_1.text)
-
-
-
-
-                    Price_label:
-                        id: _reg_price_2_label
-                        text: "regular price 2"
-
-
-                    PriceInput:
-                        id: _reg_price_2
-                        hint_text: "Insert New Price 2"
-
-
-
-                    User_button_device:
-                        id:_confirm_2_button
-                        text: "Confirm 2 Price"
-                        width: 150
-                        on_release: root.request_new_prices(_reg_price_1,_reg_price_1.text)
-
-
-
-                    Price_label:
-                        id: _action_price_1_label
-                        text: "Action Price 1"
-
-
-                    PriceInput:
-                        id: _action_price_1
-                        hint_text: "Insert New Action Price 1"
-
-
-
-                    User_button_device:
-                        id:_confim_action_1_button
-                        text: "Confirm Action 1 Price"
-                        width: 150
-                        on_release: root.request_new_prices(_action_price_1_,_action_price_1_.text)
-
-
-
-
-                    Price_label:
-                        id: _action_price_2_label
-                        text: "Action Price 2"
-
-
-                    PriceInput:
-                        id: _action_price_2
-                        hint_text: "Insert New Action Price 2"
-
-
-
-                    User_button_device:
-                        id:_confirm_action_2_button
-                        text: "Confirm Action 2"
-                        width: 150
-                        on_release: root.request_new_prices(_action_price_2_, _action_price_2_.text)

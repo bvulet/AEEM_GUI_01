@@ -8,17 +8,21 @@
 from ManageVideos import ManageVideos
 
 from DeviceRegulation import DeviceRegulation
+from OwnerInformations import OwnerInformations
 
 class Controller():
 
     def __init__(self, get_os, logger_file, model, view, active_devices,
                  currency_set, currency_value, dual_currency, price,
-                 device_config_sections, config_file):
+                 device_config_sections, config_file, owner_informations, owner_config_sections, owner_config_file):
 
         self.model = model
         self.device_regulation = DeviceRegulation(view, get_os, active_devices, currency_set, currency_value,
                                                     dual_currency, price, device_config_sections, config_file)
 
+        self.owner_info = OwnerInformations(view, get_os, owner_informations, owner_config_sections,
+                                            owner_config_file)
+        self.read_owner_data = None
         self.read_device_info = None
         self.logger_file = logger_file
         self.logger = self.model.logger_start
@@ -46,14 +50,16 @@ class Controller():
         self.linux_rel_video_dir = ""
         self.linux_video_dir = None
         self.read_device_parameters()
+        self.read_owner_informations()
 
     def read_device_parameters(self):
         self.read_device_info = self.device_regulation.read_device_status()
-        print(self.read_device_info)
         self.send_device_to_screen(self.read_device_info)
         self.send_payment_data_to_screen(self.read_device_info)
 
-
+    def read_owner_informations(self):
+        self.read_owner_data = self.owner_info.read_data()
+        self.view.get_screen("naplatascreen").write_owner_info(self.read_owner_data)
 
     def send_device_to_screen(self, data):
 
@@ -134,8 +140,28 @@ class Controller():
 
             self.view.get_screen("paymentcontrolscreen").inform_screen("payment_disable")
 
+        elif data['action_price_1_active'] == "True":
+
+            self.view.get_screen("paymentcontrolscreen").inform_screen("action_price_1_active")
+
+        elif data['action_price_1_active'] == "False":
+
+            self.view.get_screen("paymentcontrolscreen").inform_screen("action_price_1_disable")
+
+        elif data['action_price_2_active'] == "True":
+
+            self.view.get_screen("paymentcontrolscreen").inform_screen("action_price_2_active")
+
+        elif data['action_price_2_active'] == "False":
+
+            self.view.get_screen("paymentcontrolscreen").inform_screen("action_price_2_disable")
+
         else:
             self.view.get_screen("paymentcontrolscreen").inform_screen("req_error")
+
+    def send_owner_info_to_screen(self, data):
+        pass
+
 
 
 
@@ -239,56 +265,16 @@ class Controller():
         self.diagnostic_ui()
         pass
 
-    def device_check(self, disable_type):
+    def device_control(self, disable_type):
 
         """ Sending commands from GUI and to GUI about disabling a device
         also it is used to write that command back to a file and set a
         device as disabled"""
 
-        status = self.model.device_control(disable_type)
+        self.read_device_info = self.device_regulation.change_values(disable_type)
+        self.device_regulation.save_device_parameters()
+        self.send_device_to_screen(self.read_device_info)
 
-        if status == "all_disabled":
-
-            self.view.get_screen("developerscreen").inform_disable("all_disabled")
-
-        elif status == "all_enabled":
-
-            self.view.get_screen("developerscreen").inform_disable("all_enabled")
-
-        elif status == "req_error":
-
-            self.view.get_screen("developerscreen").inform_disable("req_error")
-
-        elif status == "unexpected_err":
-            status = self.model.device_control(disable_type)
-            self.model.send_to_log("device_operation_error")
-            # self.view.get_screen("developerscreen").inform_disable("unexpected_err")
-            # pozovi welcome screen i kazi da imamo gresku u nalogu te ne daj
-            # rad uredaja odn da se ide u menije - kao i gore---
-
-        elif status == "coin_enable":
-
-            self.view.get_screen("developerscreen").inform_disable("coin_enable")
-
-        elif status == "coin_disable":
-
-            self.view.get_screen("developerscreen").inform_disable("coin_disable")
-
-        elif status == "bill_enable":
-
-            self.view.get_screen("developerscreen").inform_disable("bill_enable")
-
-        elif status == "bill_disable":
-
-            self.view.get_screen("developerscreen").inform_disable("bill_disable")
-
-        elif status == "hooper_enable":
-
-            self.view.get_screen("developerscreen").inform_disable("hooper_enable")
-
-        elif status == "hooper_disable":
-
-            self.view.get_screen("developerscreen").inform_disable("hooper_disable")
 
     def diagnostic_ui(self):
 

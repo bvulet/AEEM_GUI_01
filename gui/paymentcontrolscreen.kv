@@ -35,10 +35,10 @@
     multiline: False
     is_focusable: True
 
-<DeveloperScreen>:
+<PaymentControlScreen>:
 
-    name: 'developerscreen'
-    id : _developerscreen
+    name: 'paymentcontrolscreen'
+    id : _paymentcontrolscreen
     on_pre_enter:
         _reg_price_1.text = ''
         _reg_price_2.text = ''
@@ -69,7 +69,7 @@
                 size_hint: .15,.15
                 background_color: (0,0,0,0)
                 background_normal:''
-                on_press: root.manager.current = 'welcomescreen'
+                on_press: root.manager.current = 'developerscreen'
                 Image:
                     source:"images/back_button.png"
                     center_x: self.parent.center_x
@@ -101,7 +101,7 @@
             anchor_y:"top"
             padding:[0,100,180,0]
             GridLayout:
-                rows:6
+                rows:4
                 cols:2
                 spacing:20,20
                 row_default_height: 50
@@ -129,6 +129,24 @@
                     on_press:
                         root.disable_devices("payment")
 
+                Status_light:
+                    id: _action_price_1_label
+                    source: 'images/green_ok.png'
+                User_button_device:
+                    id:_action_price_1_button
+                    text: "Action Price 1"
+                    on_press:
+                        root.disable_devices("action_price_1")
+
+                Status_light:
+                    id: _action_price_2_label
+                    source: 'images/green_ok.png'
+                User_button_device:
+                    id:_action_price_2_button
+                    text: "Action Price 2"
+                    on_press:
+                        root.disable_devices("action_price_2")
+
 
 
             AnchorLayout:
@@ -150,7 +168,7 @@
                 GridLayout:
                     rows:6
                     cols:3
-                    spacing:10,10
+                    spacing:20,20
                     row_default_height: 35
                     row_force_default: True
                     size_hint:None,None
@@ -208,7 +226,7 @@
 
                     User_button_device:
                         id:_confim_action_1_button
-                        text: "Confirm Action 1 Price"
+                        text: "Confirm Action 1"
                         width: 150
                         on_release: root.request_new_prices(_action_price_1_,_action_price_1_.text)
 

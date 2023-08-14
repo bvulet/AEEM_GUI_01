@@ -14,6 +14,8 @@ class NaplataScreen(Screen):
     def __init__(self, **kwargs):
 
         super(NaplataScreen, self).__init__(name='NaplataScreen')
+        self.info_popup = Dompopup()
+
 
     def on_enter(self):
         return #povuci listu iz kontrolora za prikaz trenutnih cijena
@@ -88,6 +90,13 @@ class NaplataScreen(Screen):
     """ Namijenjeno da kada se pritisne confirm kaze ok placeno je obrada je u tijeku i printer ce 
     isprintati. ako nije dobar iznos kaze nije dobro nastavi nesto drugo"""
 
+    def show_info_popup(self):
+
+        self.info_popup.open()
+    def write_owner_info(self, data):
+        self.info_popup.write_popup_data(data)
+        pass
+        #self.ids._warningbtn.box_pop_label.text = str(data)
 
 class Dompopup(Popup):
 
@@ -95,6 +104,13 @@ class Dompopup(Popup):
         super(Dompopup, self).__init__(**kwargs)
         # call dismiss_popup in 4 seconds
         Clock.schedule_once(self.dismiss_popup, 4)
+
+
+    def write_popup_data(self, data):
+        self.ids._company_label.text= str(data['name'])
+        self.ids._phone_label.text = str(data['phone'])
+        self.ids._mail_label.text = str(data['mail'])
+
 
     def dismiss_popup(self, dt):
         self.dismiss()
