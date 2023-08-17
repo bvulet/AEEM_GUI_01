@@ -51,6 +51,11 @@ class DataHandling:
                 for (key, value) in data.items():
                     self.config.set(write_section, str(key), str(value))
 
+    def write_single_config(self, write_section, name, data):
+
+        for each_section in self.config.sections():
+            if (write_section == each_section):
+                    self.config.set(write_section, str(name), str(data))
 
     def save_write_config(self):
         try:

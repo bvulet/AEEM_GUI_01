@@ -26,17 +26,10 @@ class PaymentControlScreen(Screen):
 
     def on_pre_enter(self, *args):
         self.manager.controller.read_device_parameters()
-#        self.manager.controller.check_price_options()
-
-
-    # def request_old_prices(self):
-    #     self.manager.controller.read_device_parameters()
+        self.manager.controller.check_prices()
 
 
 
-
-
-    #     self.manager.controller.check_prices()
 
     def show_old_prices(self, id, value, currency):
 
@@ -48,7 +41,7 @@ class PaymentControlScreen(Screen):
         self.ids._2_h_price_label.text = str(value[4]) + blank + currency
         self.ids._24_h_price_label.text = str(value[5]) + blank + currency
 
-    def request_new_prices(self, id, value):
+    def request_new_prices(self, section, id, value):
         constant = 0.5
         index = list(self.ids.values()).index(id)
         widget_ids = list(self.ids.keys())
@@ -62,12 +55,12 @@ class PaymentControlScreen(Screen):
 
         else:
             price = float(value)
-            self.manager.controller.price_set(local_id, price)
+            self.manager.controller.price_set(section, local_id, price)
 
-    def disable_devices(self, device):
+    def disable_devices(self, section, device):
 
         self.disable_req = device
-        self.manager.controller.device_check(device)
+        self.manager.controller.device_control(section, device)
 
     def inform_screen(self, req_type):
 
@@ -75,44 +68,37 @@ class PaymentControlScreen(Screen):
             self.ids._dual_currency_light.source = self.image_ok
             self.ids._dual_currency_button.background_color = self.button_color_gray
 
-        elif req_type == "dual_currency_disable":
+        if req_type == "dual_currency_disable":
             self.ids._dual_currency_light.source = self.image_not_ok
             self.ids._dual_currency_button.background_color = self.button_color_red
 
-        elif req_type == "payment_enable":
+        if req_type == "payment_enable":
             self.ids._payment_light.source = self.image_ok
-            self.ids._payment_button.background_color = self.button_color_red
+            self.ids._payment_button.background_color =  self.button_color_gray
 
 
-        elif req_type == "payment_disable":
+        if req_type == "payment_disable":
             self.ids._payment_light.source = self.image_not_ok
             self.ids._payment_button.background_color = self.button_color_red
 
-        elif req_type == "action_price_1_active":
-            self.ids._payment_light.source = self.image_not_ok
-            self.ids._payment_button.background_color = self.button_color_red
+        if req_type == "action_price_1_active":
+            self.ids._action_price_1_light.source = self.image_ok
+            self.ids._action_price_1_button.background_color =  self.button_color_gray
 
-        elif req_type == "action_price_1_disable":
-            self.ids._payment_light.source = self.image_not_ok
-            self.ids._payment_button.background_color = self.button_color_red
+        if req_type == "action_price_1_disable":
+            self.ids._action_price_1_light.source = self.image_not_ok
+            self.ids._action_price_1_button.background_color = self.button_color_red
 
-        elif req_type == "action_price_2_active":
-            self.ids._payment_light.source = self.image_not_ok
-            self.ids._payment_button.background_color = self.button_color_red
+        if req_type == "action_price_2_active":
+            self.ids._action_price_2_light.source = self.image_ok
+            self.ids._action_price_2_button.background_color =  self.button_color_gray
 
-        elif req_type == "action_price_2_disable":
-            self.ids._payment_light.source = self.image_not_ok
-            self.ids._payment_button.background_color = self.button_color_red
+        if req_type == "action_price_2_disable":
+            self.ids._action_price_2_light.source = self.image_not_ok
+            self.ids._action_price_2_button.background_color = self.button_color_red
 
 
 
-        elif req_type == "req_error":
-            # upisi tekst da je greska u obradi zahtjeva
-
-            pass
-        elif req_type == "unexpected_err":
-            # upisi na welcome screen nesto pitanje je ide li ovamo to uopce
-            pass
 
     def popoutselect(self, state, id):
 

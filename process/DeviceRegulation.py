@@ -64,9 +64,13 @@ class DeviceRegulation:
 
 
 
+    def write_to_config(self, section, data):
+        self.configuration.write_config(section, data)
 
+    def write_to_indiv_config(self, section, name, data):
+        self.configuration.write_single_config(section, name, data)
 
-    def save_device_parameters(self):
+    def save_to_config(self):
         status = self.configuration.save_write_config()
         if status:
             self.read_device_data = self.configuration.read_config()

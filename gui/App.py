@@ -64,7 +64,7 @@ device_config_sections = ['active_devices', "currency_set", "currency_value",
 active_devices = {"all_enable": "True", "coin_device": "True", "bill_device":"False", "printer_device": "False",
                   "hooper_device": "False", "video_commercial": "True", "air_pump": "True"}
 
-currency_set = {"BAM": "KM", "Eur": "Euro"}
+currency_set = {"BAM": "KM", "Eur": "Euro", "default_currency": "BAM"}
 currency_value = {"KM": "1", "Euro": "1.95"}
 dual_currency = {"dual_currency_status": "False"}
 
@@ -74,6 +74,7 @@ price = {"payment_enable": "True", "action_price_1_active": "False", "action_pri
 
 owner_config_sections = ['owner_informations']
 owner_details = {'name': "MyCompany", "phone": "+387544", "mail": "my@mail"}
+
 
 class AeemScreenApp(App, Screen):
     def __init__(self, **kwargs):

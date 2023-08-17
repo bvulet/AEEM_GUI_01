@@ -71,51 +71,51 @@ class Controller():
 
             self.view.get_screen("developerscreen").inform_screen("all_disabled")
 
-        elif data['all_enable'] == "True":
+        if data['all_enable'] == "True":
             self.view.get_screen("developerscreen").inform_screen("all_enabled")
 
-        elif data['coin_device'] == "True":
+        if data['coin_device'] == "True":
 
             self.view.get_screen("developerscreen").inform_screen("coin_enable")
 
-        elif data['coin_device'] == "False":
+        if data['coin_device'] == "False":
 
             self.view.get_screen("developerscreen").inform_screen("coin_disable")
 
-        elif data['bill_device'] == "True":
+        if data['bill_device'] == "True":
 
             self.view.get_screen("developerscreen").inform_screen("bill_enable")
 
 
-        elif data['bill_device'] == "False":
+        if data['bill_device'] == "False":
 
-            self.view.get_screen("developerscreen").inform_screen("coin_disable")
+            self.view.get_screen("developerscreen").inform_screen("bill_disable")
 
-        elif data['hooper_device'] == "True":
+        if data['hooper_device'] == "True":
 
             self.view.get_screen("developerscreen").inform_screen("hooper_enable")
 
 
-        elif data['hooper_device'] == "True":
+        if data['hooper_device'] == "False":
 
             self.view.get_screen("developerscreen").inform_screen("hooper_disable")
 
 
-        elif data['printer_device'] == "True":
+        if data['printer_device'] == "True":
 
             self.view.get_screen("developerscreen").inform_screen("printer_enable")
 
 
-        elif data['printer_device'] == "False":
+        if data['printer_device'] == "False":
 
             self.view.get_screen("developerscreen").inform_screen("printer_disable")
 
-        elif data['air_pump'] == "True":
+        if data['air_pump'] == "True":
 
             self.view.get_screen("developerscreen").inform_screen("air_enable")
 
 
-        elif data['air_pump'] == "False":
+        if data['air_pump'] == "False":
 
             self.view.get_screen("developerscreen").inform_screen("air_disable")
 
@@ -128,39 +128,37 @@ class Controller():
 
             self.view.get_screen("paymentcontrolscreen").inform_screen("dual_currency_enable")
 
-        elif data['dual_currency_status'] == "False":
+        if data['dual_currency_status'] == "False":
 
             self.view.get_screen("paymentcontrolscreen").inform_screen("dual_currency_disable")
 
-        elif data['payment_enable'] == "True":
+        if data['payment_enable'] == "True":
 
             self.view.get_screen("paymentcontrolscreen").inform_screen("payment_enable")
 
-        elif data['payment_enable'] == "False":
+        if data['payment_enable'] == "False":
 
             self.view.get_screen("paymentcontrolscreen").inform_screen("payment_disable")
 
-        elif data['action_price_1_active'] == "True":
+        if data['action_price_1_active'] == "True":
 
             self.view.get_screen("paymentcontrolscreen").inform_screen("action_price_1_active")
 
-        elif data['action_price_1_active'] == "False":
+        if data['action_price_1_active'] == "False":
 
             self.view.get_screen("paymentcontrolscreen").inform_screen("action_price_1_disable")
 
-        elif data['action_price_2_active'] == "True":
+        if data['action_price_2_active'] == "True":
 
             self.view.get_screen("paymentcontrolscreen").inform_screen("action_price_2_active")
 
-        elif data['action_price_2_active'] == "False":
+        if data['action_price_2_active'] == "False":
 
             self.view.get_screen("paymentcontrolscreen").inform_screen("action_price_2_disable")
 
         else:
             self.view.get_screen("paymentcontrolscreen").inform_screen("req_error")
 
-    def send_owner_info_to_screen(self, data):
-        pass
 
 
 
@@ -265,16 +263,20 @@ class Controller():
         self.diagnostic_ui()
         pass
 
-    def device_control(self, disable_type):
+    def device_control(self, section, disable_type):
 
         """ Sending commands from GUI and to GUI about disabling a device
         also it is used to write that command back to a file and set a
         device as disabled"""
 
         self.read_device_info = self.device_regulation.change_values(disable_type)
-        self.device_regulation.save_device_parameters()
+        self.device_regulation.write_to_indiv_config(section, disable_type, self.read_device_info[disable_type])
+        self.device_regulation.save_to_config()
         self.send_device_to_screen(self.read_device_info)
+        self.send_payment_data_to_screen(self.read_device_info)
 
+    def control_payment_settings(self, data):
+        pass
 
     def diagnostic_ui(self):
 
@@ -301,7 +303,9 @@ class Controller():
 
 
 
-    def check_price_options(self):
+    def check_prices(self):
+        def_curr =  self.read_device_info['default_currency']
+        get_currency = self.read_device_info[def_curr]
 
         id_price = list(self.model.price_selected.keys())
         price = list(self.model.price_selected.values())

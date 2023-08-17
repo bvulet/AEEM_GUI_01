@@ -117,7 +117,7 @@
                     id:_dual_currency_button
                     text: "Disable Dual Currency"
                     on_press:
-                        root.disable_devices("dual_currency")
+                        root.disable_devices("dual_currency", "dual_currency_status")
 
 
                 Status_light:
@@ -127,25 +127,25 @@
                     id:_payment_button
                     text: "Disable Payment"
                     on_press:
-                        root.disable_devices("payment")
+                        root.disable_devices("price", "payment_enable")
 
                 Status_light:
-                    id: _action_price_1_label
+                    id: _action_price_1_light
                     source: 'images/green_ok.png'
                 User_button_device:
                     id:_action_price_1_button
                     text: "Action Price 1"
                     on_press:
-                        root.disable_devices("action_price_1")
+                        root.disable_devices("price", "action_price_1_active")
 
                 Status_light:
-                    id: _action_price_2_label
+                    id: _action_price_2_light
                     source: 'images/green_ok.png'
                 User_button_device:
                     id:_action_price_2_button
                     text: "Action Price 2"
                     on_press:
-                        root.disable_devices("action_price_2")
+                        root.disable_devices("price", "action_price_2_active")
 
 
 
@@ -189,7 +189,7 @@
                         id:_confirm_1_button
                         text: "Confirm 1 Price"
                         width: 150
-                        on_release: root.request_new_prices(_reg_price_1,_reg_price_1.text)
+                        on_release: root.request_new_prices("price", _reg_price_1,_reg_price_1.text)
 
 
 
@@ -209,7 +209,7 @@
                         id:_confirm_2_button
                         text: "Confirm 2 Price"
                         width: 150
-                        on_release: root.request_new_prices(_reg_price_1,_reg_price_1.text)
+                        on_release: root.request_new_prices("price", _reg_price_1,_reg_price_1.text)
 
 
 
@@ -228,7 +228,7 @@
                         id:_confim_action_1_button
                         text: "Confirm Action 1"
                         width: 150
-                        on_release: root.request_new_prices(_action_price_1_,_action_price_1_.text)
+                        on_release: root.request_new_prices("price", _action_price_1_,_action_price_1_.text)
 
 
 
@@ -248,4 +248,4 @@
                         id:_confirm_action_2_button
                         text: "Confirm Action 2"
                         width: 150
-                        on_release: root.request_new_prices(_action_price_2_, _action_price_2_.text)
+                        on_release: root.request_new_prices("price", _action_price_2_, _action_price_2_.text)

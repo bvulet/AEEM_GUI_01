@@ -91,10 +91,10 @@
                     source: 'images/green_ok.png'
 
                 User_button_device:
-                    id:_all_device_disable_button
+                    id: _all_device_disable_button
                     text: "Disable All"
                     on_press:
-                        root.control_device("all")
+                        root.control_device("active_devices", "all_enable")
 
 
                 Status_light:
@@ -105,7 +105,7 @@
                     id:_coin_device_button
                     text: "Disable Coin"
                     on_press:
-                        root.control_device("coin")
+                        root.control_device("active_devices", "coin_device")
 
                 Status_light:
                     id: _bill_device_light
@@ -115,7 +115,7 @@
                     id:_bill_device_button
                     text: "Disable Bill"
                     on_press:
-                        root.control_device("bill")
+                        root.control_device("active_devices", "bill_device")
 
         AnchorLayout:
             anchor_x:"left"
@@ -137,7 +137,7 @@
                     id:_hooper_device_button
                     text: "Disable Hooper"
                     on_press:
-                        root.control_device("hooper")
+                        root.control_device("active_devices", "hooper_device")
 
 
                 Status_light:
@@ -148,7 +148,7 @@
                     id:_printer_device_button
                     text: "Disable Printer"
                     on_press:
-                        root.control_device("printer")
+                        root.control_device("active_devices", "printer_device")
 
 
                 Status_light:
@@ -159,7 +159,7 @@
                     id:_air_pump_device_button
                     text: "Disable Air Pump"
                     on_press:
-                        root.control_device("air_pump")
+                        root.control_device("active_devices", "air_pump")
 
 
 

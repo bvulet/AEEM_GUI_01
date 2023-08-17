@@ -29,46 +29,40 @@ class DeveloperScreen(Screen):
 #        self.manager.controller.check_price_options()
 
 
-    def control_device(self, device):
+    def control_device(self, section, device):
 
         self.disable_req = device
-        self.manager.controller.device_control(device)
+        self.manager.controller.device_control(section, device)
 
     def inform_screen(self, req_type):
 
         if req_type == "all_disabled":
             self.ids._all_device_disabled_light.source = self.image_not_ok
             self.ids._all_device_disable_button.background_color = self.button_color_red
-            self.ids._coin_device_light.source = self.image_not_ok
-            self.ids._coin_device_button.background_color = self.button_color_red
-            self.ids._bill_device_light.source = self.image_not_ok
-            self.ids._bill_device_button.background_color = self.button_color_red
-            self.ids._hooper_device_light.source = self.image_not_ok
-            self.ids._hooper_device_button.background_color = self.button_color_red
-            self.ids._dual_currency_light.source = self.image_not_ok
-            self.ids._dual_currency_button.background_color = self.button_color_red
-            self.ids._printer_device_light.source = self.image_not_ok
-            self.ids._printer_device_button.background_color = self.button_color_red
-            self.ids._printer_device_light.source = self.image_not_ok
-            self.ids._printer_device_button.background_color = self.button_color_red
-            self.ids._air_pump_device_light.source = self.image_not_ok
-            self.ids._air_pump_device_button.background_color = self.button_color_red
-            self.ids._payment_light.source = self.image_not_ok
-            self.ids._payment_button.background_color = self.button_color_red
+            # self.ids._coin_device_light.source = self.image_not_ok
+            # self.ids._coin_device_button.background_color = self.button_color_red
+            # self.ids._bill_device_light.source = self.image_not_ok
+            # self.ids._bill_device_button.background_color = self.button_color_red
+            # self.ids._hooper_device_light.source = self.image_not_ok
+            # self.ids._hooper_device_button.background_color = self.button_color_red
+            # self.ids._printer_device_light.source = self.image_not_ok
+            # self.ids._printer_device_button.background_color = self.button_color_red
+            # self.ids._air_pump_device_light.source = self.image_not_ok
+            # self.ids._air_pump_device_button.background_color = self.button_color_red
 
-        elif req_type == "all_enabled":
+        if req_type == "all_enabled":
             self.ids._all_device_disabled_light.source = self.image_ok
             self.ids._all_device_disable_button.background_color = self.button_color_gray
-            self.ids._coin_device_light.source = self.image_ok
-            self.ids._coin_device_button.background_color = self.button_color_gray
-            self.ids._bill_device_light.source = self.image_ok
-            self.ids._bill_device_button.background_color = self.button_color_gray
-            self.ids._hooper_device_light.source = self.image_ok
-            self.ids._hooper_device_button.background_color = self.button_color_gray
-            self.ids._printer_device_light.source = self.image_ok
-            self.ids._printer_device_button.background_color = self.button_color_gray
-            self.ids._air_pump_device_light.source = self.image_ok
-            self.ids._air_pump_device_button.background_color = self.button_color_gray
+            # self.ids._coin_device_light.source = self.image_ok
+            # self.ids._coin_device_button.background_color = self.button_color_gray
+            # self.ids._bill_device_light.source = self.image_ok
+            # self.ids._bill_device_button.background_color = self.button_color_gray
+            # self.ids._hooper_device_light.source = self.image_ok
+            # self.ids._hooper_device_button.background_color = self.button_color_gray
+            # self.ids._printer_device_light.source = self.image_ok
+            # self.ids._printer_device_button.background_color = self.button_color_gray
+            # self.ids._air_pump_device_light.source = self.image_ok
+            # self.ids._air_pump_device_button.background_color = self.button_color_gray
 
 
 
@@ -96,13 +90,6 @@ class DeveloperScreen(Screen):
             self.ids._hooper_device_light.source = self.image_not_ok
             self.ids._hooper_device_button.background_color = self.button_color_red
 
-        # elif req_type == "dual_currency_enable":
-        #     self.ids._dual_currency_light.source = self.image_ok
-        #     self.ids._dual_currency_button.background_color = self.button_color_gray
-        #
-        # elif req_type == "dual_currency_disable":
-        #     self.ids._dual_currency_light.source = self.image_not_ok
-        #     self.ids._dual_currency_button.background_color = self.button_color_red
 
         elif req_type == "printer_enable":
             self.ids._printer_device_light.source = self.image_ok
@@ -121,14 +108,6 @@ class DeveloperScreen(Screen):
             self.ids._air_pump_device_button.background_color = self.button_color_red
 
 
-        # elif req_type == "payment_enable":
-        #     self.ids._payment_light.source = self.image_ok
-        #     self.ids._payment_button.background_color = self.button_color_red
-        #
-        #
-        # elif req_type == "payment_disable":
-        #     self.ids._payment_light.source = self.image_not_ok
-        #     self.ids._payment_button.background_color = self.button_color_red
 
 
         elif req_type == "req_error":
