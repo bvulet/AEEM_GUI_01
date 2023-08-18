@@ -13,12 +13,12 @@ from OwnerInformations import OwnerInformations
 class Controller():
 
     def __init__(self, get_os, logger_file, model, view, active_devices,
-                 currency_set, currency_value, dual_currency, price,
+                 currency_set, currency_value, dual_currency, price, price_value,
                  device_config_sections, config_file, owner_informations, owner_config_sections, owner_config_file):
 
         self.model = model
         self.device_regulation = DeviceRegulation(view, get_os, active_devices, currency_set, currency_value,
-                                                    dual_currency, price, device_config_sections, config_file)
+                                                    dual_currency, price, price_value, device_config_sections, config_file)
 
         self.owner_info = OwnerInformations(view, get_os, owner_informations, owner_config_sections,
                                             owner_config_file)
@@ -60,6 +60,7 @@ class Controller():
     def read_owner_informations(self):
         self.read_owner_data = self.owner_info.read_data()
         self.view.get_screen("naplatascreen").write_owner_info(self.read_owner_data)
+        self.view.get_screen("paymentscreen").write_owner_info(self.read_owner_data)
 
     def send_device_to_screen(self, data):
 
@@ -161,37 +162,6 @@ class Controller():
 
 
 
-
-
-    def price_set(self, id_sel, value):
-        """ Used for price init or price changing directly from GUI
-        """
-        if id_sel == "_15_min_price":
-            self.model.price_selected["min_15"] = value  # write to model
-            self.check_prices()  # update screen
-            self.model.write_user_config()
-        elif id_sel == "_30_min_price":
-            self.model.price_selected["min_30"] = value
-            self.check_prices()
-            self.model.write_user_config()
-        elif id_sel == "_45_min_price":
-            self.model.price_selected["min_45"] = value
-            self.check_prices()
-            self.model.write_user_config()
-        elif id_sel == "_1_h_price":
-            self.model.price_selected["hour_1"] = value
-            self.check_prices()
-            self.model.write_user_config()
-        elif id_sel == "_2_h_price":
-            self.model.price_selected["hour_2"] = value
-            self.check_prices()
-            self.model.write_user_config()
-        elif id_sel == "_24_h_price":
-            self.model.price_selected["hour_24"] = value
-            self.check_prices()
-            self.model.write_user_config()
-        else:
-            self.model.send_to_log("price_set_error")
 
     def check_reg_amount(self):
 
@@ -304,13 +274,23 @@ class Controller():
 
 
     def check_prices(self):
-        def_curr =  self.read_device_info['default_currency']
+        values = []
+        def_curr = self.read_device_info['default_currency']
         get_currency = self.read_device_info[def_curr]
+        get_price_section = self.device_regulation.read_section("price_value")
+        for t in get_price_section:
+            for item in t:
+                values.append(item)
 
-        id_price = list(self.model.price_selected.keys())
-        price = list(self.model.price_selected.values())
+        self.view.get_screen("paymentcontrolscreen").show_old_prices(values[1:len(values):2], get_currency)
 
-        self.view.get_screen("developerscreen").show_old_prices(id_price, price, self.model.price_currency)
+    def price_set(self, section, id_sel, value):
+        """ Used for price init or price changing directly from GUI
+        """
+        self.device_regulation.write_to_indiv_config(section, id_sel, value)
+        self.device_regulation.save_to_config()
+        self.read_device_parameters()
+
 
 
     def inform_first_start_device_check(self):

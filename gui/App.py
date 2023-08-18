@@ -59,17 +59,18 @@ user_config_sections = ["master_user", "master_passwords", "users", "passwords"]
 
 
 device_config_sections = ['active_devices', "currency_set", "currency_value",
-                          'dual_currency', "price"
+                          'dual_currency', "price", "price_value"
                         ]
 active_devices = {"all_enable": "True", "coin_device": "True", "bill_device":"False", "printer_device": "False",
                   "hooper_device": "False", "video_commercial": "True", "air_pump": "True"}
 
-currency_set = {"BAM": "KM", "Eur": "Euro", "default_currency": "BAM"}
-currency_value = {"KM": "1", "Euro": "1.95"}
+currency_set = {"bam": "KM", "eur": "Euro", "default_currency": "bam"}
+currency_value = {"km": "1", "euro": "1.95"}
 dual_currency = {"dual_currency_status": "False"}
 
-price = {"payment_enable": "True", "action_price_1_active": "False", "action_price_2_active": "False",
-         "reg_1": "1", "reg_2": "2",
+price = {"payment_enable": "True", "action_price_1_active": "False", "action_price_2_active": "False"
+         }
+price_value = {"reg_1": "1", "reg_2": "2",
          "action_price_1": "1", "action_price_2": "1"}
 
 owner_config_sections = ['owner_informations']
@@ -85,7 +86,7 @@ class AeemScreenApp(App, Screen):
         model = AutomatedParkingManagement()
         view = ScreenManagement(Window)
         controller = Controller(get_os, logger_file_name, model, view, active_devices,
-                                currency_set, currency_value, dual_currency, price, device_config_sections,
+                                currency_set, currency_value, dual_currency, price, price_value, device_config_sections,
                                 device_config_file_name, owner_details, owner_config_sections, owner_config_file_name)
 
         user_accounts = UserAccounts(view, get_os, users_init, users_pass_init,master_user_init,

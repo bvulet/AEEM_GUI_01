@@ -167,7 +167,7 @@
                 padding:[30,0,0,200]
                 GridLayout:
                     rows:6
-                    cols:3
+                    cols:4
                     spacing:20,20
                     row_default_height: 35
                     row_force_default: True
@@ -176,7 +176,7 @@
 
                     Price_label:
                         id: _reg_price_1_label
-                        text: "regular price 1"
+                        text: "Regular price 1"
 
 
                     PriceInput:
@@ -184,32 +184,38 @@
                         hint_text: "insert new price 1"
                         input_type: 'number'
 
+                    Price_label:
+                        id: _currency_label_1
+                        text: ""
+
 
                     User_button_device:
                         id:_confirm_1_button
                         text: "Confirm 1 Price"
                         width: 150
-                        on_release: root.request_new_prices("price", _reg_price_1,_reg_price_1.text)
+                        on_release: root.request_new_prices("price_value", "reg_1",_reg_price_1.text)
 
 
 
 
                     Price_label:
                         id: _reg_price_2_label
-                        text: "regular price 2"
-
+                        text: "Regular price 2"
 
                     PriceInput:
                         id: _reg_price_2
                         hint_text: "Insert New Price 2"
 
-
+                    Price_label:
+                        id: _currency_label_2
+                        text: ""
 
                     User_button_device:
                         id:_confirm_2_button
                         text: "Confirm 2 Price"
                         width: 150
-                        on_release: root.request_new_prices("price", _reg_price_1,_reg_price_1.text)
+                        on_release: root.request_new_prices("price_value", "reg_2", _reg_price_2.text)
+
 
 
 
@@ -222,13 +228,15 @@
                         id: _action_price_1
                         hint_text: "Insert New Action Price 1"
 
-
+                    Price_label:
+                        id: _currency_label_3
+                        text: ""
 
                     User_button_device:
                         id:_confim_action_1_button
                         text: "Confirm Action 1"
                         width: 150
-                        on_release: root.request_new_prices("price", _action_price_1_,_action_price_1_.text)
+                        on_release: root.request_new_prices("price_value", "action_price_1", _action_price_1.text)
 
 
 
@@ -242,10 +250,12 @@
                         id: _action_price_2
                         hint_text: "Insert New Action Price 2"
 
-
+                    Price_label:
+                        id: _currency_label_4
+                        text: ""
 
                     User_button_device:
                         id:_confirm_action_2_button
                         text: "Confirm Action 2"
                         width: 150
-                        on_release: root.request_new_prices("price", _action_price_2_, _action_price_2_.text)
+                        on_release: root.request_new_prices("price_value", "action_price_2", _action_price_2.text)

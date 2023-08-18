@@ -95,7 +95,7 @@ class NaplataScreen(Screen):
         self.info_popup.open()
     def write_owner_info(self, data):
         self.info_popup.write_popup_data(data)
-        pass
+
         #self.ids._warningbtn.box_pop_label.text = str(data)
 
 class Dompopup(Popup):

@@ -9,11 +9,37 @@
     size_hint: None, None
     size: 450, 250
     BoxLayout:
-        Label:
-            text: """Having difficulty, Please contact \n xxxxxxxxxxx\nNivu """
-            font_size: 20
-            color: 1 ,1 ,1 ,1
+        GridLayout:
+            rows:4
+            cols:1
+            spacing_vertical:20
+            spacing_horizontal:1
+            row_default_height: 40
+            row_force_default: True
 
+            Label:
+                id: _box_pop_label
+                text: """Having difficulties, please contact us:"""
+                font_size: 20
+                color: 1 ,1 ,1 ,1
+            Label:
+                id: _company_label
+                text: """ """
+                font_size: 20
+                halign:'left'
+                color: 1 ,1 ,1 ,1
+            Label:
+                id: _phone_label
+                text: """ \n"""
+                halign:'left'
+                font_size: 20
+                color: 1 ,1 ,1 ,1
+            Label:
+                id: _mail_label
+                text: """ \n"""
+                halign:'left'
+                font_size: 20
+                color: 1 ,1 ,1 ,1
 
 
 <Timetoggle@ToggleButton>:
@@ -120,7 +146,7 @@
         size_hint:.1,.1
         background_color: 0,0,0,0
         pos_hint: {'right':.95,'top':.3}
-        on_press: Factory.Enpopup().open()
+        on_press: root.show_info_popup()
 
         Image:
             id: _warning_img

@@ -14,7 +14,7 @@ class PaymentScreen(Screen):
         super(PaymentScreen, self).__init__(name='PaymentScreen')
         self.timer = None
         self.dismiss_pop_time = 5
-
+        self.info_popup = Enpopup()
     def on_enter(self):
        return
 
@@ -88,6 +88,13 @@ class PaymentScreen(Screen):
             popup.open()
         Clock.schedule_once(popup.dismiss, self.dismiss_pop_time)
 
+    def show_info_popup(self):
+        self.info_popup.open()
+
+    def write_owner_info(self, data):
+        self.info_popup.write_popup_data(data)
+
+
 
 class Enpopup(Popup):
 
@@ -96,6 +103,12 @@ class Enpopup(Popup):
         self.dismiss_pop_time = 5
 
         Clock.schedule_once(self.dismiss_popup, self.dismiss_pop_time)
+
+    def write_popup_data(self, data):
+        self.ids._company_label.text = str(data['name'])
+        self.ids._phone_label.text = str(data['phone'])
+        self.ids._mail_label.text = str(data['mail'])
+
 
     def dismiss_popup(self, dt):
         self.dismiss()

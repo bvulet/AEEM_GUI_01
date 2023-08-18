@@ -8,7 +8,7 @@ class DeviceRegulation:
 
     def __init__(self, view, get_os,
                  active_devices, currency_set, currency_value,
-                 dual_currency, price, device_config_sections,
+                 dual_currency, price, price_value, device_config_sections,
                  config_file):
 
         self.read_device_data = None
@@ -18,6 +18,7 @@ class DeviceRegulation:
         self.dual_currency = dual_currency
         self.device_config_sections = device_config_sections
         self.price = price
+        self.price_value = price_value
         self.configuration = DataHandling(get_os, config_file)
         self.view = view
 
@@ -49,6 +50,7 @@ class DeviceRegulation:
                 self.configuration.write_config("currency_value", self.currency_value)
                 self.configuration.write_config("dual_currency", self.dual_currency)
                 self.configuration.write_config("price", self.price)
+                self.configuration.write_config("price_value", self.price_value)
                 status = self.configuration.save_write_config()
                 if status:
                     self.read_device_data = self.configuration.read_config()
@@ -62,6 +64,8 @@ class DeviceRegulation:
         # ovdje ce ici backup ako ne bude ovo uzmi sql
         #self.set_account_info()
 
+    def read_section(self, section):
+      return self.configuration.read_section(section)
 
 
     def write_to_config(self, section, data):

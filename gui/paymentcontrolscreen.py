@@ -31,31 +31,33 @@ class PaymentControlScreen(Screen):
 
 
 
-    def show_old_prices(self, id, value, currency):
+    def show_old_prices(self, value, currency):
 
-        blank = " "
-        self.ids._15_min_price_label.text = str(value[0]) + blank + currency
-        self.ids._30_min_price_label.text = str(value[1]) + blank + currency
-        self.ids._45_min_price_label.text = str(value[2]) + blank + currency
-        self.ids._1_h_price_label.text = str(value[3]) + blank + currency
-        self.ids._2_h_price_label.text = str(value[4]) + blank + currency
-        self.ids._24_h_price_label.text = str(value[5]) + blank + currency
+        self.ids._currency_label_1.text = currency
+        self.ids._currency_label_2.text = currency
+        self.ids._currency_label_3.text = currency
+        self.ids._currency_label_4.text = currency
+        self.ids._reg_price_1.text = str(value[0])
+        self.ids._reg_price_2.text = str(value[1])
+        self.ids._action_price_1.text = str(value[2])
+        self.ids._action_price_2.text = str(value[3])
+
 
     def request_new_prices(self, section, id, value):
         constant = 0.5
-        index = list(self.ids.values()).index(id)
-        widget_ids = list(self.ids.keys())
-        local_id = widget_ids[index]
+        #index = list(self.ids.values()).index(id)
+       # widget_ids = list(self.ids.keys())
+       # local_id = widget_ids[index]
 
         if value == "" or "insert" in value:
-            self.popoutselect('empty', local_id)
+            self.popoutselect('empty', id)
             pass
         elif float(value) % constant:
-            self.popoutselect('price_error', local_id)
+            self.popoutselect('price_error', id)
 
         else:
             price = float(value)
-            self.manager.controller.price_set(section, local_id, price)
+            self.manager.controller.price_set(section, id, price)
 
     def disable_devices(self, section, device):
 

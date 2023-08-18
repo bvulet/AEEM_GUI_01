@@ -43,6 +43,8 @@ class DataHandling:
 
         return self.read_data
 
+    def read_section(self, section):
+         return self.config.items(section)
 
     def write_config(self, write_section, data):
 
