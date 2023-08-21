@@ -51,7 +51,8 @@
 
     backgroundscreen:_backgroundscreen
     on_pre_enter:
-        min_15.state = 'normal'
+        charging_1.state = 'normal'
+        charging_2.state = 'normal'
 
 
 
@@ -87,16 +88,25 @@
             rows:3
             cols:2
             spacing_vertical:10
-            spacing_horizontal:1
+            spacing_horizontal:10
             row_default_height: 110
             col_default_width:100
             row_force_default: True
             col_force_default:True
             Timetoggle:
-                id: min_15
-                text: '15 min'
-                on_state: root.time_select_deselect(*args,'min_15')
+                id: charging_1
+                text: 'Charging 1'
+                on_state: root.time_select_deselect(*args, 'charging_1')
 
+            Timetoggle:
+                id: charging_2
+                text: 'Charging 2'
+                on_state: root.time_select_deselect(*args, 'charging_2')
+
+            Timetoggle:
+                id: air_pump
+                text: 'Air'
+                on_state: root.time_select_deselect(*args, 'air_pump')
 
 
 
@@ -127,7 +137,17 @@
                 color: 1,1,1,1
                 font_size:'20'
 
+            Label:
+                id: _time_description
+                text: "Time"
+                color: 1,1,1,1
+                font_size:'20'
 
+            Label:
+                id: _time_available
+                text: "Avaiable"
+                color: 1,1,1,1
+                font_size:'20'
 
 
 

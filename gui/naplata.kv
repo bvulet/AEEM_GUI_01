@@ -53,7 +53,8 @@
     name: 'naplatascreen'
 
     on_pre_enter:
-        charging.state = 'normal'
+        charging_1.state = 'normal'
+        charging_2.state = 'normal'
         air_pump.state = 'normal'
 
     BackgroundScreen:
@@ -83,24 +84,30 @@
         anchor_y:"top"
         padding:[10,80,0,0]
         GridLayout:
-
             rows:3
             cols:2
             spacing_vertical:10
-            spacing_horizontal:1
+            spacing_horizontal:10
             row_default_height: 110
             col_default_width:100
             row_force_default: True
             col_force_default:True
             Timetoggle1:
-                id: charging
-                text: 'Punjenje'
-                on_state: root.time_select_deselect(*args, 'charging')
+                id: charging_1
+                text: 'Punjenje 1'
+                on_state: root.recognize_selected('charging_1')
+
+            Timetoggle1:
+                id: charging_2
+                text: 'Punjenje 2'
+                on_state: root.recognize_selected('charging_2')
 
             Timetoggle1:
                 id: air_pump
                 text: 'Zrak'
-                on_state: root.time_select_deselect(*args, 'air_pump')
+                on_state: root.recognize_selected('air_pump')
+
+
 
     AnchorLayout:
         anchor_x:"center"

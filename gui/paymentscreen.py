@@ -18,8 +18,10 @@ class PaymentScreen(Screen):
     def on_enter(self):
        return
 
+    def inform_time(self, type, time_total):
 
-
+        self.ids._time_description.text = str(type)
+        self.ids._time_available.text = str(time_total)
 
     def amountinserted(self, inserted_amount):
 

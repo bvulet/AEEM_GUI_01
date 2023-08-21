@@ -15,15 +15,25 @@ class NaplataScreen(Screen):
 
         super(NaplataScreen, self).__init__(name='NaplataScreen')
         self.info_popup = Dompopup()
+        self.selected = None
 
 
     def on_enter(self):
         return #povuci listu iz kontrolora za prikaz trenutnih cijena
 
+    def inform_time(self, type, time_total):
+
+        self.ids._time_description.text = str(type)
+        self.ids._time_available.text = str(time_total)
 
     def amountinserted(self, inserted_amount):
 
         self.ids._amount_insert.text = str(inserted_amount)
+
+    def recognize_selected(self, product_type):
+        self.selected = product_type
+        self.manager.controller.check_selected_price(product_type)
+
 
     def confirm_selection(self):
 
@@ -31,7 +41,13 @@ class NaplataScreen(Screen):
         based on thoose parameters calls a popoutselect function with information regarding the next steps,
         printer function if can and a hooper function that needs to return extra if needed. If yes, hooper function
         resets a counters, if not confirm button resets it because there is no need to return anything."""
-        self.manager.controller.service_payment()
+        if self.selected is None:
+            self.popoutselect("not_selected")
+
+        else:
+
+            self.manager.controller.service_payment(self.selected)
+
 
     def popoutselect(self, state):
 

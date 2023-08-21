@@ -13,17 +13,22 @@ from OwnerInformations import OwnerInformations
 class Controller():
 
     def __init__(self, get_os, logger_file, model, view, active_devices,
-                 currency_set, currency_value, dual_currency, price, price_value,
-                 device_config_sections, config_file, owner_informations, owner_config_sections, owner_config_file):
+                 currency_set, currency_value, dual_currency, price, price_value, product_selection,
+                 time_selection, device_config_sections, config_file,
+                 owner_informations, owner_config_sections, owner_config_file):
 
         self.model = model
         self.device_regulation = DeviceRegulation(view, get_os, active_devices, currency_set, currency_value,
-                                                    dual_currency, price, price_value, device_config_sections, config_file)
+                                                    dual_currency, price, price_value, product_selection,
+                                                  time_selection, device_config_sections, config_file)
 
         self.owner_info = OwnerInformations(view, get_os, owner_informations, owner_config_sections,
                                             owner_config_file)
         self.read_owner_data = None
         self.read_device_info = None
+        self.get_charging_price = None
+        self.get_air_price = None
+
         self.logger_file = logger_file
         self.logger = self.model.logger_start
         self.view = view
@@ -32,16 +37,16 @@ class Controller():
 
         self.amount_inserted = None
         self.selection_costing = None
+        self.insert_amount = "4"
+        # self.device_status = None
+        # self.device_code = None
+        #
+        # self.check_coin_bypass = False
+        # self.check_bill_bypass = False
+        # self.check_hooper_bypass = False
+        # self.all_bypass = False
 
-        self.device_status = None
-        self.device_code = None
-
-        self.check_coin_bypass = False
-        self.check_bill_bypass = False
-        self.check_hooper_bypass = False
-        self.all_bypass = False
-
-        self.enable_payment = False
+        # self.enable_payment = False
 
         self.video_directory = None
         self.usb_directorys = None
@@ -56,6 +61,7 @@ class Controller():
         self.read_device_info = self.device_regulation.read_device_status()
         self.send_device_to_screen(self.read_device_info)
         self.send_payment_data_to_screen(self.read_device_info)
+        self.check_active_price()
 
     def read_owner_informations(self):
         self.read_owner_data = self.owner_info.read_data()
@@ -160,6 +166,17 @@ class Controller():
         else:
             self.view.get_screen("paymentcontrolscreen").inform_screen("req_error")
 
+    def check_active_price(self):
+        if self.read_device_info['action_price_1_active'] == "True":
+            self.get_charging_price = self.read_device_info['action_price_1']
+        else:
+            self.get_charging_price = self.read_device_info['reg_1']
+
+
+        if self.read_device_info['action_price_2_active'] == "True":
+            self.get_air_price = self.read_device_info['reg_2']
+        else:
+            self.get_air_price = self.read_device_info['action_price_2']
 
 
 
@@ -184,6 +201,29 @@ class Controller():
                                                                       time_selected)  # ovo promijeniti
             self.view.get_screen("paymentscreen").time_selection_show(self.model._costing, time_selected)
 
+
+
+    def check_selected_price(self, product_type):
+        if product_type == "charging_1" or product_type == "charging_2":
+            time_per_unit = self.read_device_info['charging']
+            price_per_unit = self.get_charging_price
+            time_multi = round( float(self.insert_amount) / float(price_per_unit), 2)
+            time_total = time_multi * int(time_per_unit)
+            self.view.get_screen("naplatascreen").inform_time("Punjenje", time_total)
+            self.view.get_screen("paymentscreen").inform_time("Charging", time_total)
+        elif product_type == "air_pump":
+            time_per_unit = self.read_device_info['time_air']
+            price_per_unit = self.get_air_price
+            time_multi = round( float(self.insert_amount) / float(price_per_unit), 2)
+            time_total = time_multi * int(time_per_unit)
+            self.view.get_screen("naplatascreen").inform_time("Zrak", time_total)
+            self.view.get_screen("paymentscreen").inform_time("Air", time_total)
+
+
+
+
+
+ # old
     def price_check(self, amount_inserted, amount_inserted_ui):
         """ Used for sending information about inserted amount of money
         in machine"""
@@ -193,10 +233,11 @@ class Controller():
         self.view.get_screen("paymentscreen").amountinserted(amount_inserted_ui)
         self.amount_inserted = amount_inserted
 
-    def service_payment(self):
+    def service_payment(self, product_type):
         """ Used for payment services. Depending on a user selection as well as with
         a money amount it will behave with this below options. An addition should be made in order to detect
         a malfunction or paper out and according to that to disable payment options at all."""
+
         if not self.model.all_disable:
 
             if self.selection_costing is None or self.amount_inserted is None:
@@ -225,6 +266,7 @@ class Controller():
             # zabrani pristup onim screenovima osim >>
             # ta ista funckija ce biti i prilikom prve provjere
 
+
     def printer_action(self, time, date, time_selection, price):
         """ Calling a printer to print a card with date and time, selected time option as well as the price
             for that selection"""
@@ -232,7 +274,7 @@ class Controller():
         # provjera ispravnosti uredaja nakon printanja
         self.diagnostic_ui()
         pass
-
+#------
     def device_control(self, section, disable_type):
 
         """ Sending commands from GUI and to GUI about disabling a device
@@ -244,6 +286,7 @@ class Controller():
         self.device_regulation.save_to_config()
         self.send_device_to_screen(self.read_device_info)
         self.send_payment_data_to_screen(self.read_device_info)
+        self.check_active_price()
 
     def control_payment_settings(self, data):
         pass
@@ -284,14 +327,18 @@ class Controller():
 
         self.view.get_screen("paymentcontrolscreen").show_old_prices(values[1:len(values):2], get_currency)
 
+
+
     def price_set(self, section, id_sel, value):
         """ Used for price init or price changing directly from GUI
         """
         self.device_regulation.write_to_indiv_config(section, id_sel, value)
         self.device_regulation.save_to_config()
         self.read_device_parameters()
+        self.check_active_price()
 
 
+#old
 
     def inform_first_start_device_check(self):
         if self.model.all_disable:
