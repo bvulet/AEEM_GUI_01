@@ -112,39 +112,81 @@
     AnchorLayout:
         anchor_x:"center"
         anchor_y:"center"
-        padding:[0,0,0,0]
-
+        padding:[0,0,250,0]
         GridLayout:
             rows:2
             cols:2
             size_hint:None,None
 
-            col_default_width:100
+            col_default_width:150
 
-            col_force_default:True
+            col_force_default:False
             Label:
                 id: _amount_description
                 text: "Uplaćeno"
                 color: 1,1,1,1
                 font_size:'20'
+                halign:"left"
 
             Label:
                 id: _amount_insert
                 text: "Uplaćeno"
                 color: 1,1,1,1
                 font_size:'20'
+                halign:"left"
 
             Label:
                 id: _time_description
                 text: "Vrijeme"
                 color: 1,1,1,1
                 font_size:'20'
+                halign:"left"
 
             Label:
                 id: _time_available
                 text: "Dostupno"
                 color: 1,1,1,1
                 font_size:'20'
+                halign:"left"
+
+
+
+    AnchorLayout:
+        anchor_x:"right"
+        anchor_y:"center"
+        padding:[0,0,50,200]
+
+        GridLayout:
+            rows:3
+            cols:1
+            size_hint:None,None
+
+            col_default_width:150
+
+            col_force_default:False
+            Label:
+                id: _selected_option
+                text: "Izabrano"
+                color: 1,1,1,1
+                font_size:'20'
+                halign:"left"
+
+            Label:
+                id: _time_left
+                text: "Vrijeme Preostalo"
+                color: 1,1,1,1
+                font_size:'20'
+                halign:"left"
+            Button:
+                text: "Stop"
+                size_hint: .1,.1
+                on_press:
+                    root.confirm_selection()
+
+
+
+
+
 
     AnchorLayout:
         anchor_x:"center"

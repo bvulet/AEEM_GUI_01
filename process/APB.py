@@ -37,7 +37,11 @@ class Controller():
 
         self.amount_inserted = None
         self.selection_costing = None
-        self.insert_amount = "4"
+        self.converted_amount = None
+        self.insert_amount = 4
+        self.active_charging_1 = None
+        self.active_charging_2 = None
+        self.active_air_pump = None
         # self.device_status = None
         # self.device_code = None
         #
@@ -181,8 +185,29 @@ class Controller():
 
 
     def check_reg_amount(self):
+        #self.model.registered_amount()
+        insert_amount = self.insert_amount
+        currency_value_2 = self.read_device_info['euro']
+        default_currency = self.read_device_info['default_currency']
+        currency_2 = self.read_device_info['eur']
+        converted_amount = float(insert_amount) * float(currency_value_2)
 
-        self.model.registered_amount()
+
+
+        if self.read_device_info['dual_currency_status'] == "False":
+            converted_amount = ""
+            other_currency = ""
+            self.view.get_screen("naplatascreen").amountinserted(insert_amount, default_currency, converted_amount,
+                                                                 currency_2)
+            self.view.get_screen("paymentscreen").amountinserted(insert_amount, default_currency, converted_amount,
+                                                                 other_currency)
+
+        elif self.read_device_info['dual_currency_status'] == "True":
+            self.view.get_screen("naplatascreen").amountinserted(insert_amount, default_currency, converted_amount,
+                                                                 currency_2)
+            self.view.get_screen("paymentscreen").amountinserted(insert_amount, default_currency, converted_amount,
+                                                                 currency_2)
+
 
     def time_selection(self, time_selected):
         """ Used for time selection transfer in GUI and a model of APM
@@ -218,6 +243,9 @@ class Controller():
             time_total = time_multi * int(time_per_unit)
             self.view.get_screen("naplatascreen").inform_time("Zrak", time_total)
             self.view.get_screen("paymentscreen").inform_time("Air", time_total)
+        elif product_type == "None":
+            self.view.get_screen("naplatascreen").inform_time("Dostupno", "")
+            self.view.get_screen("paymentscreen").inform_time("Avaiable", "")
 
 
 

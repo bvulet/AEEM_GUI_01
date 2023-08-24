@@ -23,9 +23,11 @@ class PaymentScreen(Screen):
         self.ids._time_description.text = str(type)
         self.ids._time_available.text = str(time_total)
 
-    def amountinserted(self, inserted_amount):
+    def amountinserted(self, inserted_amount, default_currency, converted_amount, other_currency):
+        insert_to_screen = "{0}  {1}   {2}  {3}".format(inserted_amount, default_currency, converted_amount, other_currency)
+        self.ids._amount_insert.text = str(insert_to_screen)
 
-        self.ids._amount_insert.text = str(inserted_amount)
+
 
     def confirm_selection(self):
         """ on a press of a confirm function takes payment information selected and amount inserted

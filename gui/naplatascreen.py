@@ -19,6 +19,8 @@ class NaplataScreen(Screen):
 
 
     def on_enter(self):
+        self.recognize_selected("None")
+        self.manager.controller.check_reg_amount()
         return #povuci listu iz kontrolora za prikaz trenutnih cijena
 
     def inform_time(self, type, time_total):
@@ -26,9 +28,9 @@ class NaplataScreen(Screen):
         self.ids._time_description.text = str(type)
         self.ids._time_available.text = str(time_total)
 
-    def amountinserted(self, inserted_amount):
-
-        self.ids._amount_insert.text = str(inserted_amount)
+    def amountinserted(self, inserted_amount, default_currency,converted_amount,other_currency):
+        insert_to_screen = "{0}  {1}   {2}  {3}".format(inserted_amount, default_currency, converted_amount, other_currency)
+        self.ids._amount_insert.text = str(insert_to_screen)
 
     def recognize_selected(self, product_type):
         self.selected = product_type
